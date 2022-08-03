@@ -1,9 +1,9 @@
-﻿using Library.API.Models;
+﻿using Library.API.Data;
+using Library.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Library.API.Controllers {
     [Route("api/[controller]")]
@@ -12,44 +12,22 @@ namespace Library.API.Controllers {
     public class ClientesController : ControllerBase {
 
 
-        public List<Clientes> Clientes = new List<Clientes> {
-            new Clientes {
-                Id = 1,
-                Nome = "Carlos",
-                Endereco = "Rua al",
-                Cidade = "Fortaleza",
-                Email = "clli@gmail.com"
-            },
-            new Clientes {
-                Id = 2,
-                Nome = "JP",
-                Endereco = "Rua Tal123",
-                Cidade = "SP",
-                Email = "jp@gmail.com"
-            },
-            new Clientes {
-                Id = 3,
-                Nome = "Oliveira",
-                Endereco = "Rua 123",
-                Cidade = "RJ",
-                Email = "oliver@gmail.com"
-            }
-        };
-
-
-
-        public ClientesController() { }
+        private readonly DataContext _context;
+        public ClientesController(DataContext context) {
+            _context = context;
+        }
+               
 
         [HttpGet]
         public IActionResult Get() {
-            return Ok(Clientes);
+            return Ok(_context.Clientes);
         }
 
         // GET api/clientes/1
          [HttpGet("byId/{id}")]
          public IActionResult GetById(int id) {
 
-            var cliente = Clientes.FirstOrDefault(client => client.Id == id);
+            var cliente = _context.Clientes.FirstOrDefault(client => client.Id == id);
             if (cliente == null) return BadRequest("O Cliente não foi encontrado!");
 
             return Ok(cliente);
@@ -59,7 +37,7 @@ namespace Library.API.Controllers {
          [HttpGet("ByName")]
          public IActionResult GetByName(string nome) {
 
-            var cliente = Clientes.FirstOrDefault(client => client.Nome.Contains(nome));
+            var cliente = _context.Clientes.FirstOrDefault(client => client.Nome.Contains(nome));
             if (cliente == null) return BadRequest("O Cliente não foi encontrado!");
 
             return Ok(cliente);
@@ -68,24 +46,42 @@ namespace Library.API.Controllers {
         // POST api/clientes/name
          [HttpPost]
          public IActionResult Post(Clientes clientes) {
+
+            _context.Add(clientes);
+            _context.SaveChanges();
             return Ok(clientes);
          }
 
         // PUT api/clientes/name
          [HttpPut("{id}")]
          public IActionResult Put(int id, Clientes clientes) {
+
+            var clien = _context.Clientes.AsNoTracking().FirstOrDefault(client => client.Id == id);
+            if (clien == null) return BadRequest("O Cliente não foi encontrado!");
+            _context.Update(clientes);
+            _context.SaveChanges();
             return Ok(clientes);
         }
 
         // PATCH  api/clientes/name
         [HttpPatch("{id}")]
          public IActionResult Patch(int id, Clientes clientes) {
+
+            var clien = _context.Clientes.AsNoTracking().FirstOrDefault(client => client.Id == id);
+            if (clien == null) return BadRequest("O Cliente não foi encontrado!");
+            _context.Update(clientes);
+            _context.SaveChanges();
             return Ok(clientes);
         }
 
         // DELETE api/<ClientesController>/5
         [HttpDelete("{id}")]
          public IActionResult Delete(int id) {
+
+            var cliente = _context.Clientes.FirstOrDefault(client => client.Id == id);
+            if (cliente == null) return BadRequest("O Cliente não foi encontrado!");
+            _context.Remove(cliente);
+            _context.SaveChanges();
             return Ok();
         }
         

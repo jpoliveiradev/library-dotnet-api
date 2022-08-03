@@ -1,11 +1,15 @@
-﻿namespace Library.API.Models {
+﻿
+
+using System;
+
+namespace Library.API.Models {
     public class Alugueis {
 
         public Alugueis() {
 
         }
 
-        public Alugueis(int id, string livroId, int clienteId, string dataAluguel, string dataPrevisao, string dataDevolucao) {
+        public Alugueis(int id, int livroId, int clienteId, DateTime dataAluguel, DateTime dataPrevisao, DateTime dataDevolucao) {
             Id = id;
             LivroId = livroId;
             ClienteId = clienteId;
@@ -16,7 +20,7 @@
 
         public int Id { get; set; }
 
-        public string LivroId { get; set; }
+        public int LivroId { get; set; }
 
         public Livros Livros { get; set; }
         
@@ -24,11 +28,11 @@
 
         public Clientes Clientes { get; set; }
 
-        public string DataAluguel { get; set; }
+        public DateTime DataAluguel { get; set; }
 
-        public string DataPrevisao { get; set; }
+        public DateTime DataPrevisao { get; set; }
 
-        public string DataDevolucao { get; set; }
+        public DateTime DataDevolucao { get; set; }
 
     }
 }

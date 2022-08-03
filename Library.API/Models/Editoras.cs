@@ -7,15 +7,15 @@ namespace Library.API.Models {
 
         }
 
-        public Editoras(int id, string nome_Editora, string cidade) {
+        public Editoras(int id, string nomeEditora, string cidade) {
             Id = id;
-            Nome_Editora = nome_Editora;
+            NomeEditora = nomeEditora;
             Cidade = cidade;
         }
 
         public int Id { get; set; }
 
-        public string Nome_Editora { get; set; }
+        public string NomeEditora { get; set; }
 
         public string Cidade { get; set; }
 
