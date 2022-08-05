@@ -29,6 +29,7 @@ namespace Library.API {
 
             );
 
+            services.AddScoped<IRepository, Repository>();
 
             services.AddControllers();
 

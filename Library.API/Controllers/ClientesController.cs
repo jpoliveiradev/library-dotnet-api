@@ -13,10 +13,18 @@ namespace Library.API.Controllers {
 
 
         private readonly DataContext _context;
-        public ClientesController(DataContext context) {
+        private readonly IRepository _repo;
+
+        public ClientesController(DataContext context, IRepository repo) {
             _context = context;
+            _repo = repo;
         }
-               
+
+
+        //[HttpGet]
+        //public IActionResult repositorio() {
+        //    return Ok(_repo.Clientes);
+        //}      
 
         [HttpGet]
         public IActionResult Get() {
@@ -24,67 +32,83 @@ namespace Library.API.Controllers {
         }
 
         // GET api/clientes/1
-         [HttpGet("byId/{id}")]
-         public IActionResult GetById(int id) {
+        [HttpGet("byId/{id}")]
+        public IActionResult GetById(int id) {
 
             var cliente = _context.Clientes.FirstOrDefault(client => client.Id == id);
             if (cliente == null) return BadRequest("O Cliente não foi encontrado!");
 
             return Ok(cliente);
-         }
+        }
 
         // GET api/clientes/nome
-         [HttpGet("ByName")]
-         public IActionResult GetByName(string nome) {
+        [HttpGet("ByName")]
+        public IActionResult GetByName(string nome) {
 
             var cliente = _context.Clientes.FirstOrDefault(client => client.Nome.Contains(nome));
             if (cliente == null) return BadRequest("O Cliente não foi encontrado!");
 
             return Ok(cliente);
-         }
-        
-        // POST api/clientes/name
-         [HttpPost]
-         public IActionResult Post(Clientes clientes) {
+        }
 
-            _context.Add(clientes);
-            _context.SaveChanges();
-            return Ok(clientes);
-         }
+        // POST api/clientes/name
+        [HttpPost]
+        public IActionResult Post(Clientes clientes) {
+
+            _repo.Add(clientes);
+            if (_repo.SaveChanges()) {
+                return Ok(clientes);
+
+            }
+            return BadRequest("O Cliente não foi Cadastrado!");
+
+        }
 
         // PUT api/clientes/name
-         [HttpPut("{id}")]
-         public IActionResult Put(int id, Clientes clientes) {
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Clientes clientes) {
 
             var clien = _context.Clientes.AsNoTracking().FirstOrDefault(client => client.Id == id);
             if (clien == null) return BadRequest("O Cliente não foi encontrado!");
-            _context.Update(clientes);
-            _context.SaveChanges();
-            return Ok(clientes);
+           
+            _repo.Update(clientes);
+            if (_repo.SaveChanges()) {
+                return Ok(clientes);
+
+            }
+            return BadRequest("O Cliente não foi Atualizado!");
         }
 
         // PATCH  api/clientes/name
         [HttpPatch("{id}")]
-         public IActionResult Patch(int id, Clientes clientes) {
+        public IActionResult Patch(int id, Clientes clientes) {
 
             var clien = _context.Clientes.AsNoTracking().FirstOrDefault(client => client.Id == id);
             if (clien == null) return BadRequest("O Cliente não foi encontrado!");
-            _context.Update(clientes);
-            _context.SaveChanges();
-            return Ok(clientes);
+
+            _repo.Update(clientes);
+            if (_repo.SaveChanges()) {
+                return Ok(clientes);
+
+            }
+            return BadRequest("O Cliente não foi Atualizado!");
         }
 
         // DELETE api/<ClientesController>/5
         [HttpDelete("{id}")]
-         public IActionResult Delete(int id) {
+        public IActionResult Delete(int id) {
 
             var cliente = _context.Clientes.FirstOrDefault(client => client.Id == id);
             if (cliente == null) return BadRequest("O Cliente não foi encontrado!");
-            _context.Remove(cliente);
-            _context.SaveChanges();
-            return Ok();
+
+            _repo.Delete(cliente);
+            if (_repo.SaveChanges()) {
+                return Ok("Cliente Deletado!");
+
+            }
+            return BadRequest("O Cliente não foi Deletado!");
         }
-        
+
 
 
 
