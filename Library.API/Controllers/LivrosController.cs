@@ -12,28 +12,32 @@ namespace Library.API.Controllers {
     public class LivrosController : ControllerBase {
 
 
-        private readonly DataContext _context;
-        public LivrosController(DataContext context) {
-            _context = context;
+        private readonly IRepository _repo;
+
+        public LivrosController(IRepository repo) {
+
+            _repo = repo;
         }
-               
+
+
 
         [HttpGet]
         public IActionResult Get() {
-            return Ok(_context.Livros);
+            var result = _repo.GetAllLivros(true);
+            return Ok(result);
         }
 
         // GET api/Livros/1
-         [HttpGet("byId/{id}")]
+         [HttpGet("{id}")]
          public IActionResult GetById(int id) {
 
-            var livro = _context.Livros.FirstOrDefault(livr => livr.Id == id);
+            var livro = _repo.GetLivroById(id, true);
             if (livro == null) return BadRequest("O Livro não foi encontrado!");
 
             return Ok(livro);
          }
 
-        // GET api/Livros/nome
+        /*// GET api/Livros/nome
          [HttpGet("ByName")]
          public IActionResult GetByName(string NomeLivro) {
 
@@ -41,48 +45,62 @@ namespace Library.API.Controllers {
             if (livro == null) return BadRequest("O Livro não foi encontrado!");
 
             return Ok(livro);
-         }
+         }*/
         
         // POST api/Livros/name
          [HttpPost]
-         public IActionResult Post(Livros Livros) {
+         public IActionResult Post(Livros livros) {
 
-            _context.Add(Livros);
-            _context.SaveChanges();
-            return Ok(Livros);
-         }
+            _repo.Add(livros);
+            if (_repo.SaveChanges()) {
+                return Ok(livros);
+
+            }
+            return BadRequest("O Livro não foi Cadastrado!");
+        }
 
         // PUT api/Livros/name
          [HttpPut("{id}")]
-         public IActionResult Put(int id, Livros Livros) {
+         public IActionResult Put(int id, Livros livros) {
 
-            var livro = _context.Livros.AsNoTracking().FirstOrDefault(livr => livr.Id == id);
-            if (livro == null) return BadRequest("O Livro não foi encontrado!");
-            _context.Update(Livros);
-            _context.SaveChanges();
-            return Ok(Livros);
+            var livro = _repo.GetLivroById(id);
+            if (livro == null) return BadRequest("O Cliente não foi encontrado!");
+
+            _repo.Update(livros);
+            if (_repo.SaveChanges()) {
+                return Ok(livros);
+
+            }
+            return BadRequest("O Livro não foi Atualizado!");
         }
 
         // PATCH  api/Livros/name
         [HttpPatch("{id}")]
-         public IActionResult Patch(int id, Livros Livros) {
+         public IActionResult Patch(int id, Livros livros) {
 
-            var livro = _context.Livros.AsNoTracking().FirstOrDefault(livr => livr.Id == id);
+            var livro = _repo.GetLivroById(id);
             if (livro == null) return BadRequest("O Livro não foi encontrado!");
-            _context.Update(Livros);
-            _context.SaveChanges();
-            return Ok(Livros);
+            _repo.Update(livros);
+            if (_repo.SaveChanges()) {
+                return Ok(livros);
+
+            }
+            return BadRequest("O Livro não foi Atualizado!");
         }
 
         // DELETE api/<LivrosController>/5
         [HttpDelete("{id}")]
          public IActionResult Delete(int id) {
 
-            var livro = _context.Livros.FirstOrDefault(livr => livr.Id == id);
+            var livro = _repo.GetLivroById(id);
             if (livro == null) return BadRequest("O Livro não foi encontrado!");
-            _context.Remove(livro);
-            _context.SaveChanges();
-            return Ok();
+
+            _repo.Delete(livro);
+            if (_repo.SaveChanges()) {
+                return Ok("Livro Deletado!");
+
+            }
+            return BadRequest("O Livro não foi Deletado!");
         }
         
 

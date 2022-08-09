@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 
 namespace Library.API.Models {
     public class Alugueis {
@@ -22,11 +20,11 @@ namespace Library.API.Models {
 
         public int LivroId { get; set; }
 
-        public Livros Livros { get; set; }
+        public Livros Livro { get; set; }
         
         public int ClienteId { get; set; }
 
-        public Clientes Clientes { get; set; }
+        public Clientes Cliente { get; set; }
 
         public DateTime DataAluguel { get; set; }
 

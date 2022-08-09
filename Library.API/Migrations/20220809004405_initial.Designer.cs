@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220803022004_initial")]
+    [Migration("20220809004405_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,9 +27,6 @@ namespace Library.API.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ClientesId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("DataAluguel")
                         .HasColumnType("TEXT");
 
@@ -42,14 +39,11 @@ namespace Library.API.Migrations
                     b.Property<int>("LivroId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("LivrosId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientesId");
+                    b.HasIndex("ClienteId");
 
-                    b.HasIndex("LivrosId");
+                    b.HasIndex("LivroId");
 
                     b.ToTable("Alugueis");
 
@@ -204,9 +198,6 @@ namespace Library.API.Migrations
                     b.Property<int>("EditoraId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("EditorasId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("Lancamento")
                         .HasColumnType("INTEGER");
 
@@ -215,7 +206,7 @@ namespace Library.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EditorasId");
+                    b.HasIndex("EditoraId");
 
                     b.ToTable("Livros");
 
@@ -256,20 +247,26 @@ namespace Library.API.Migrations
 
             modelBuilder.Entity("Library.API.Models.Alugueis", b =>
                 {
-                    b.HasOne("Library.API.Models.Clientes", "Clientes")
+                    b.HasOne("Library.API.Models.Clientes", "Cliente")
                         .WithMany("Alugueis")
-                        .HasForeignKey("ClientesId");
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Library.API.Models.Livros", "Livros")
-                        .WithMany("Alugueis")
-                        .HasForeignKey("LivrosId");
+                    b.HasOne("Library.API.Models.Livros", "Livro")
+                        .WithMany()
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Library.API.Models.Livros", b =>
                 {
-                    b.HasOne("Library.API.Models.Editoras", "Editoras")
-                        .WithMany("Livros")
-                        .HasForeignKey("EditorasId");
+                    b.HasOne("Library.API.Models.Editoras", "Editora")
+                        .WithMany()
+                        .HasForeignKey("EditoraId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

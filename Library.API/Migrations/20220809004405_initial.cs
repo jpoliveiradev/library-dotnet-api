@@ -45,7 +45,6 @@ namespace Library.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     NomeLivro = table.Column<string>(nullable: true),
                     EditoraId = table.Column<int>(nullable: false),
-                    EditorasId = table.Column<int>(nullable: true),
                     Autor = table.Column<string>(nullable: true),
                     Lancamento = table.Column<int>(nullable: false)
                 },
@@ -53,11 +52,11 @@ namespace Library.API.Migrations
                 {
                     table.PrimaryKey("PK_Livros", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Livros_Editoras_EditorasId",
-                        column: x => x.EditorasId,
+                        name: "FK_Livros_Editoras_EditoraId",
+                        column: x => x.EditoraId,
                         principalTable: "Editoras",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,9 +66,7 @@ namespace Library.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     LivroId = table.Column<int>(nullable: false),
-                    LivrosId = table.Column<int>(nullable: true),
                     ClienteId = table.Column<int>(nullable: false),
-                    ClientesId = table.Column<int>(nullable: true),
                     DataAluguel = table.Column<DateTime>(nullable: false),
                     DataPrevisao = table.Column<DateTime>(nullable: false),
                     DataDevolucao = table.Column<DateTime>(nullable: false)
@@ -78,38 +75,18 @@ namespace Library.API.Migrations
                 {
                     table.PrimaryKey("PK_Alugueis", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Alugueis_Clientes_ClientesId",
-                        column: x => x.ClientesId,
+                        name: "FK_Alugueis_Clientes_ClienteId",
+                        column: x => x.ClienteId,
                         principalTable: "Clientes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Alugueis_Livros_LivrosId",
-                        column: x => x.LivrosId,
+                        name: "FK_Alugueis_Livros_LivroId",
+                        column: x => x.LivroId,
                         principalTable: "Livros",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.InsertData(
-                table: "Alugueis",
-                columns: new[] { "Id", "ClienteId", "ClientesId", "DataAluguel", "DataDevolucao", "DataPrevisao", "LivroId", "LivrosId" },
-                values: new object[] { 1, 2, null, new DateTime(2010, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, null });
-
-            migrationBuilder.InsertData(
-                table: "Alugueis",
-                columns: new[] { "Id", "ClienteId", "ClientesId", "DataAluguel", "DataDevolucao", "DataPrevisao", "LivroId", "LivrosId" },
-                values: new object[] { 2, 2, null, new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 12, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null });
-
-            migrationBuilder.InsertData(
-                table: "Alugueis",
-                columns: new[] { "Id", "ClienteId", "ClientesId", "DataAluguel", "DataDevolucao", "DataPrevisao", "LivroId", "LivrosId" },
-                values: new object[] { 3, 2, null, new DateTime(2015, 5, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, null });
-
-            migrationBuilder.InsertData(
-                table: "Alugueis",
-                columns: new[] { "Id", "ClienteId", "ClientesId", "DataAluguel", "DataDevolucao", "DataPrevisao", "LivroId", "LivrosId" },
-                values: new object[] { 4, 2, null, new DateTime(2022, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, null });
 
             migrationBuilder.InsertData(
                 table: "Clientes",
@@ -153,38 +130,58 @@ namespace Library.API.Migrations
 
             migrationBuilder.InsertData(
                 table: "Livros",
-                columns: new[] { "Id", "Autor", "EditoraId", "EditorasId", "Lancamento", "NomeLivro" },
-                values: new object[] { 1, "Navathe", 2, null, 2002, "Banco de Dados" });
+                columns: new[] { "Id", "Autor", "EditoraId", "Lancamento", "NomeLivro" },
+                values: new object[] { 1, "Navathe", 2, 2002, "Banco de Dados" });
 
             migrationBuilder.InsertData(
                 table: "Livros",
-                columns: new[] { "Id", "Autor", "EditoraId", "EditorasId", "Lancamento", "NomeLivro" },
-                values: new object[] { 2, "Deitel", 3, null, 2005, "Java Prático" });
+                columns: new[] { "Id", "Autor", "EditoraId", "Lancamento", "NomeLivro" },
+                values: new object[] { 2, "Deitel", 3, 2005, "Java Prático" });
 
             migrationBuilder.InsertData(
                 table: "Livros",
-                columns: new[] { "Id", "Autor", "EditoraId", "EditorasId", "Lancamento", "NomeLivro" },
-                values: new object[] { 3, "Deitel", 3, null, 2010, "Php" });
+                columns: new[] { "Id", "Autor", "EditoraId", "Lancamento", "NomeLivro" },
+                values: new object[] { 3, "Deitel", 3, 2010, "Php" });
 
             migrationBuilder.InsertData(
                 table: "Livros",
-                columns: new[] { "Id", "Autor", "EditoraId", "EditorasId", "Lancamento", "NomeLivro" },
-                values: new object[] { 4, "Cormen", 3, null, 2021, "Vue JS" });
+                columns: new[] { "Id", "Autor", "EditoraId", "Lancamento", "NomeLivro" },
+                values: new object[] { 4, "Cormen", 3, 2021, "Vue JS" });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Alugueis_ClientesId",
+            migrationBuilder.InsertData(
                 table: "Alugueis",
-                column: "ClientesId");
+                columns: new[] { "Id", "ClienteId", "DataAluguel", "DataDevolucao", "DataPrevisao", "LivroId" },
+                values: new object[] { 2, 2, new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 12, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Alugueis_LivrosId",
+            migrationBuilder.InsertData(
                 table: "Alugueis",
-                column: "LivrosId");
+                columns: new[] { "Id", "ClienteId", "DataAluguel", "DataDevolucao", "DataPrevisao", "LivroId" },
+                values: new object[] { 1, 2, new DateTime(2010, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 });
+
+            migrationBuilder.InsertData(
+                table: "Alugueis",
+                columns: new[] { "Id", "ClienteId", "DataAluguel", "DataDevolucao", "DataPrevisao", "LivroId" },
+                values: new object[] { 4, 2, new DateTime(2022, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 3 });
+
+            migrationBuilder.InsertData(
+                table: "Alugueis",
+                columns: new[] { "Id", "ClienteId", "DataAluguel", "DataDevolucao", "DataPrevisao", "LivroId" },
+                values: new object[] { 3, 2, new DateTime(2015, 5, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 4 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Livros_EditorasId",
+                name: "IX_Alugueis_ClienteId",
+                table: "Alugueis",
+                column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Alugueis_LivroId",
+                table: "Alugueis",
+                column: "LivroId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Livros_EditoraId",
                 table: "Livros",
-                column: "EditorasId");
+                column: "EditoraId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

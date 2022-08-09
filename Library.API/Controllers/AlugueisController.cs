@@ -12,77 +12,95 @@ namespace Library.API.Controllers {
     public class AlugueisController : ControllerBase {
 
 
-        private readonly DataContext _context;
-        public AlugueisController(DataContext context) {
-            _context = context;
+        private readonly IRepository _repo;
+
+        public AlugueisController(IRepository repo) {
+
+            _repo = repo;
         }
-               
+
 
         [HttpGet]
         public IActionResult Get() {
-            return Ok(_context.Alugueis);
+            var result = _repo.GetAllAlugueis();
+            return Ok(result);
         }
 
         // GET api/Alugueis/1
-         [HttpGet("byId/{id}")]
+         [HttpGet("{id}")]
          public IActionResult GetById(int id) {
 
-            var aluguel = _context.Alugueis.FirstOrDefault(aluga => aluga.Id == id);
-            if (aluguel == null) return BadRequest("O Aluguel não foi encontrado!");
+            var aluguel = _repo.GetAluguelById(id);
+            if (aluguel == null) return BadRequest("O aluguel não foi encontrado!");
 
             return Ok(aluguel);
-         }
+        }
 
         /*// GET api/Alugueis/nome
          [HttpGet("ByName")]
          public IActionResult GetByName(int LivroId) {
 
-            var cliente = _context.Alugueis.FirstOrDefault(client => client.Id == id);
-            if (cliente == null) return BadRequest("O Cliente não foi encontrado!");
+            var aluguel = _context.Alugueis.FirstOrDefault(client => client.Id == id);
+            if (aluguel == null) return BadRequest("O aluguel não foi encontrado!");
 
-            return Ok(cliente);
+            return Ok(aluguel);
          }*/
         
         // POST api/Alugueis/name
          [HttpPost]
-         public IActionResult Post(Alugueis Alugueis) {
+         public IActionResult Post(Alugueis alugueis) {
 
-            _context.Add(Alugueis);
-            _context.SaveChanges();
-            return Ok(Alugueis);
-         }
+            _repo.Add(alugueis);
+            if (_repo.SaveChanges()) {
+                return Ok(alugueis);
+
+            }
+            return BadRequest("O aluguel não foi Cadastrado!");
+        }
 
         // PUT api/Alugueis/id
          [HttpPut("{id}")]
-         public IActionResult Put(int id, Alugueis Alugueis) {
+         public IActionResult Put(int id, Alugueis alugueis) {
 
-            var aluguel = _context.Alugueis.AsNoTracking().FirstOrDefault(aluga => aluga.Id == id);
-            if (aluguel == null) return BadRequest("O Aluguel não foi encontrado!");
-            _context.Update(Alugueis);
-            _context.SaveChanges();
-            return Ok(Alugueis);
+            var alu = _repo.GetAluguelById(id);
+            if (alu == null) return BadRequest("O aluguel não foi encontrado!");
+
+            _repo.Update(alugueis);
+            if (_repo.SaveChanges()) {
+                return Ok(alugueis);
+
+            }
+            return BadRequest("O aluguel não foi Atualizado!");
         }
 
         // PATCH  api/Alugueis/id
         [HttpPatch("{id}")]
-         public IActionResult Patch(int id, Alugueis Alugueis) {
+         public IActionResult Patch(int id, Alugueis alugueis) {
 
-            var aluguel = _context.Alugueis.AsNoTracking().FirstOrDefault(aluga => aluga.Id == id);
-            if (aluguel == null) return BadRequest("O Aluguel não foi encontrado!");
-            _context.Update(Alugueis);
-            _context.SaveChanges();
-            return Ok(Alugueis);
+            var alu = _repo.GetAluguelById(id);
+            if (alu == null) return BadRequest("O aluguel não foi encontrado!");
+
+            _repo.Update(alugueis);
+            if (_repo.SaveChanges()) {
+                return Ok(alugueis);
+
+            }
+            return BadRequest("O aluguel não foi Atualizado!");
         }
 
         // DELETE api/<AlugueisController>/5
         [HttpDelete("{id}")]
          public IActionResult Delete(int id) {
 
-            var aluguel = _context.Alugueis.FirstOrDefault(aluga => aluga.Id == id);
-            if (aluguel == null) return BadRequest("O Aluguel não foi encontrado!");
-            _context.Remove(aluguel);
-            _context.SaveChanges();
-            return Ok();
+            var alu = _repo.GetAluguelById(id);
+            if (alu == null) return BadRequest("O aluguel não foi encontrado!");
+
+            _repo.Delete(alu);
+            if (_repo.SaveChanges()) {
+                return Ok("aluguel Deletado!");
+
+            }
+            return BadRequest("O aluguel não foi Deletado!");
         }
         
 

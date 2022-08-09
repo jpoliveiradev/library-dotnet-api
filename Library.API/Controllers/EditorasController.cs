@@ -10,78 +10,68 @@ namespace Library.API.Controllers {
     [ApiController]
 
     public class EditorasController : ControllerBase {
+        private readonly IRepository _repo;
 
-
-        private readonly DataContext _context;
-        public EditorasController(DataContext context) {
-            _context = context;
+        public EditorasController(IRepository repo) {
+            _repo = repo;
         }
 
 
         [HttpGet]
         public IActionResult Get() {
-            return Ok(_context.Editoras);
+            var result = _repo.GetAllEditoras();
+            return Ok(result);
         }
 
         // GET api/Editoras/1
-        [HttpGet("byId/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id) {
 
-            var editora = _context.Editoras.FirstOrDefault(edit => edit.Id == id);
-            if (editora == null) return BadRequest("A Editora não foi encontrado!");
+            var ed = _repo.GetEditoraById(id);
+            if (ed == null) return BadRequest("A Editora não foi encontrado!");
 
-            return Ok(editora);
-        }
-
-        // GET api/Editoras/nome
-        [HttpGet("ByName")]
-        public IActionResult GetByName(string NomeEditora) {
-
-            var editora = _context.Editoras.FirstOrDefault(edit => edit.NomeEditora.Contains(NomeEditora));
-            if (editora == null) return BadRequest("A Editora não foi encontrado!");
-
-            return Ok(editora);
+            return Ok(ed);
         }
 
         // POST api/Editoras/name
         [HttpPost]
-        public IActionResult Post(Editoras Editoras) {
+        public IActionResult Post(Editoras editoras) {
 
-            _context.Add(Editoras);
-            _context.SaveChanges();
-            return Ok(Editoras);
+            _repo.Add(editoras);
+            if (_repo.SaveChanges()) {
+                return Ok(editoras);
+
+            }
+            return BadRequest("O Cliente não foi Cadastrado!");
         }
 
         // PUT api/Editoras/id
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Editoras Editoras) {
+        public IActionResult Put(int id, Editoras editoras) {
 
-            var editora = _context.Editoras.AsNoTracking().FirstOrDefault(edit => edit.Id == id);
-            if (editora == null) return BadRequest("A Editora não foi encontrado!");
-            _context.Update(Editoras);
-            _context.SaveChanges();
-            return Ok(Editoras);
+            var ed = _repo.GetEditoraById(id);
+            if (ed == null) return BadRequest("A Editora não foi encontrado!");
+            
+            return Ok(editoras);
         }
 
         // PATCH  api/Editoras/id
         [HttpPatch("{id}")]
-        public IActionResult Patch(int id, Editoras Editoras) {
+        public IActionResult Patch(int id, Editoras editoras) {
 
-            var editora = _context.Editoras.AsNoTracking().FirstOrDefault(edit => edit.Id == id);
-            if (editora == null) return BadRequest("A Editora não foi encontrado!");
-            _context.Update(Editoras);
-            _context.SaveChanges();
-            return Ok(Editoras);
+            var ed = _repo.GetEditoraById(id);
+            if (ed == null) return BadRequest("A Editora não foi encontrado!");
+
+            return Ok(editoras);
         }
 
         // DELETE api/<EditorasController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id) {
 
-            var editora = _context.Editoras.FirstOrDefault(edit => edit.Id == id);
+            var editora = _repo.GetEditoraById(id);
             if (editora == null) return BadRequest("A Editora não foi encontrado!");
-            _context.Remove(editora);
-            _context.SaveChanges();
+            _repo.Delete(editora);
             return Ok();
         }
 

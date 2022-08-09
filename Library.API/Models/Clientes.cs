@@ -25,8 +25,6 @@ namespace Library.API.Models {
 
         public string Email { get; set; }
 
-        public IEnumerable<Alugueis> Alugueis { get; set; }
-
 
     }
 }

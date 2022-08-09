@@ -12,6 +12,7 @@ namespace Library.API.Models {
             EditoraId = editoraId;
             Autor = autor;
             Lancamento = lancamento;
+
         }
 
         public int Id { get; set; }
@@ -20,13 +21,13 @@ namespace Library.API.Models {
 
         public int EditoraId { get; set; }
 
-        public Editoras Editoras { get; set; }
+        public Editoras Editora { get; set; }
 
         public string Autor { get; set; }
 
         public int Lancamento { get; set; }
 
-        public IEnumerable<Alugueis> Alugueis { get; set; }
+        
 
 
 

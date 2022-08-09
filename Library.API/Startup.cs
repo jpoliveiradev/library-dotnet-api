@@ -31,7 +31,10 @@ namespace Library.API {
 
             services.AddScoped<IRepository, Repository>();
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(
+                    opt => opt.SerializerSettings.ReferenceLoopHandling =
+                            Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 
 

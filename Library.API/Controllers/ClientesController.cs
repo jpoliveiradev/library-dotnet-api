@@ -12,36 +12,31 @@ namespace Library.API.Controllers {
     public class ClientesController : ControllerBase {
 
 
-        private readonly DataContext _context;
         private readonly IRepository _repo;
 
-        public ClientesController(DataContext context, IRepository repo) {
-            _context = context;
+        public ClientesController(IRepository repo) {
+            
             _repo = repo;
         }
 
 
-        //[HttpGet]
-        //public IActionResult repositorio() {
-        //    return Ok(_repo.Clientes);
-        //}      
-
         [HttpGet]
         public IActionResult Get() {
-            return Ok(_context.Clientes);
+            var result = _repo.GetAllClientes();
+            return Ok(result);
         }
 
-        // GET api/clientes/1
-        [HttpGet("byId/{id}")]
+        // GET api/clientes/
+        [HttpGet("{id}")]
         public IActionResult GetById(int id) {
 
-            var cliente = _context.Clientes.FirstOrDefault(client => client.Id == id);
+            var cliente = _repo.GetClienteById(id);
             if (cliente == null) return BadRequest("O Cliente não foi encontrado!");
 
             return Ok(cliente);
         }
 
-        // GET api/clientes/nome
+        /*// GET api/clientes/nome
         [HttpGet("ByName")]
         public IActionResult GetByName(string nome) {
 
@@ -49,15 +44,15 @@ namespace Library.API.Controllers {
             if (cliente == null) return BadRequest("O Cliente não foi encontrado!");
 
             return Ok(cliente);
-        }
+        }*/
 
         // POST api/clientes/name
         [HttpPost]
-        public IActionResult Post(Clientes clientes) {
+        public IActionResult Post(Clientes cliente) {
 
-            _repo.Add(clientes);
+            _repo.Add(cliente);
             if (_repo.SaveChanges()) {
-                return Ok(clientes);
+                return Ok(cliente);
 
             }
             return BadRequest("O Cliente não foi Cadastrado!");
@@ -66,14 +61,14 @@ namespace Library.API.Controllers {
 
         // PUT api/clientes/name
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Clientes clientes) {
+        public IActionResult Put(int id, Clientes cliente) {
 
-            var clien = _context.Clientes.AsNoTracking().FirstOrDefault(client => client.Id == id);
+            var clien = _repo.GetClienteById(id);
             if (clien == null) return BadRequest("O Cliente não foi encontrado!");
            
-            _repo.Update(clientes);
+            _repo.Update(cliente);
             if (_repo.SaveChanges()) {
-                return Ok(clientes);
+                return Ok(cliente);
 
             }
             return BadRequest("O Cliente não foi Atualizado!");
@@ -81,14 +76,14 @@ namespace Library.API.Controllers {
 
         // PATCH  api/clientes/name
         [HttpPatch("{id}")]
-        public IActionResult Patch(int id, Clientes clientes) {
+        public IActionResult Patch(int id, Clientes cliente) {
 
-            var clien = _context.Clientes.AsNoTracking().FirstOrDefault(client => client.Id == id);
+            var clien = _repo.GetClienteById(id);
             if (clien == null) return BadRequest("O Cliente não foi encontrado!");
 
-            _repo.Update(clientes);
+            _repo.Update(cliente);
             if (_repo.SaveChanges()) {
-                return Ok(clientes);
+                return Ok(cliente);
 
             }
             return BadRequest("O Cliente não foi Atualizado!");
@@ -98,10 +93,10 @@ namespace Library.API.Controllers {
         [HttpDelete("{id}")]
         public IActionResult Delete(int id) {
 
-            var cliente = _context.Clientes.FirstOrDefault(client => client.Id == id);
-            if (cliente == null) return BadRequest("O Cliente não foi encontrado!");
+            var clien = _repo.GetClienteById(id);
+            if (clien == null) return BadRequest("O Cliente não foi encontrado!");
 
-            _repo.Delete(cliente);
+            _repo.Delete(clien);
             if (_repo.SaveChanges()) {
                 return Ok("Cliente Deletado!");
 

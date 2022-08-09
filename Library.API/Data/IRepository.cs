@@ -10,20 +10,23 @@ namespace Library.API.Data {
 
         //Clientes
         Clientes[] GetAllClientes();
-        Clientes GetClienteById();
-        
+        Clientes GetClienteById(int clienteId);
+
         //Editoras
         Editoras[] GetAllEditoras();
-        Editoras GetEditoraById();
-        
+        Editoras GetEditoraById(int editoraId);
+
         //Livros
-        Livros[] GetAllLivros();
-        Livros[] GetAllLivrosByEditoraId();
-        Livros GetLivroById();
-        
+        Livros[] GetAllLivros(bool includeEditora = false);
+        Livros[] GetAllLivrosByEditoraId(int editoraId, bool includeEditora = false);
+        Livros[] GetAllLivrosByEditoraName();
+        Livros GetLivroById(int livroId, bool includeEditora = false);
+
         //Alugueis
-       // Alugueis[] GetAllAlugueis();
-        //Alugueis GetAluguel();
+        Alugueis[] GetAllAlugueis();
+       // Alugueis[] GetAllAlugueisByLivrosName();
+       // Alugueis[] GetAllAlugueisByClientesName();
+        Alugueis GetAluguelById(int aluguelId);
 
     }
 }

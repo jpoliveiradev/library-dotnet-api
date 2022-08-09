@@ -44,3 +44,7 @@ C:\Users\JP.OLIVEIRA\Documents\Documentos\Base_Tec_Info\Curso-C#\projetos\Librar
 C:\Users\JP.OLIVEIRA\Documents\Documentos\Base_Tec_Info\Curso-C#\projetos\Library\Library.API\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\JP.OLIVEIRA\Documents\Documentos\Base_Tec_Info\Curso-C#\projetos\Library\Library.API\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
 C:\Users\JP.OLIVEIRA\Documents\Documentos\Base_Tec_Info\Curso-C#\projetos\Library\Library.API\obj\Debug\netcoreapp3.1\Library.API.csproj.CopyComplete
+C:\Users\JP.OLIVEIRA\Documents\Documentos\Base_Tec_Info\Curso-C#\projetos\Library\Library.API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\JP.OLIVEIRA\Documents\Documentos\Base_Tec_Info\Curso-C#\projetos\Library\Library.API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\JP.OLIVEIRA\Documents\Documentos\Base_Tec_Info\Curso-C#\projetos\Library\Library.API\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\JP.OLIVEIRA\Documents\Documentos\Base_Tec_Info\Curso-C#\projetos\Library\Library.API\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll

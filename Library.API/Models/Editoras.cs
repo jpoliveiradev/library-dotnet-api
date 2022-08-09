@@ -19,6 +19,6 @@ namespace Library.API.Models {
 
         public string Cidade { get; set; }
 
-        public IEnumerable<Livros> Livros { get; set; }
+       
     }
 }
