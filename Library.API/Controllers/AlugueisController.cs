@@ -14,9 +14,17 @@ namespace Library.API.Controllers {
 
         private readonly IRepository _repo;
 
-        public AlugueisController(IRepository repo) {
+
+        // aaaaaaaaaaaaaabbbbbbbbbbaaa
+
+
+
+       //sprivate readonly Imapper _mapper;
+        public AlugueisController(IRepository repo //, IMapper mapper
+        ) {
 
             _repo = repo;
+           // _mapper = mapper;
         }
 
 

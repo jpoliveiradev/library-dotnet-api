@@ -1,3 +1,4 @@
+using AutoMapper;
 using Library.API.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,14 +30,15 @@ namespace Library.API {
 
             );
 
-            services.AddScoped<IRepository, Repository>();
 
             services.AddControllers()
                 .AddNewtonsoftJson(
                     opt => opt.SerializerSettings.ReferenceLoopHandling =
                             Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            services.AddScoped<IRepository, Repository>();
 
         }
 

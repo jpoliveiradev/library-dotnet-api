@@ -7,9 +7,9 @@ namespace Library.API.Models {
 
         }
 
-        public Clientes(int id, string nome, string endereco, string cidade, string email) {
+        public Clientes(int id, string nomeUsuario, string endereco, string cidade, string email) {
             Id = id;
-            Nome = nome;
+            NomeUsuario = nomeUsuario;
             Endereco = endereco;
             Cidade = cidade;
             Email = email;
@@ -17,7 +17,7 @@ namespace Library.API.Models {
 
         public int Id { get; set; }
 
-        public string Nome { get; set; }
+        public string NomeUsuario { get; set; }
 
         public string Endereco { get; set; }
 

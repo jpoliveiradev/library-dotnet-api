@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Library.API.Models {
     public class Livros {
@@ -6,7 +7,7 @@ namespace Library.API.Models {
 
         }
 
-        public Livros(int id, string nomeLivro, int editoraId, string autor, int lancamento) {
+        public Livros(int id, string nomeLivro, int editoraId, string autor, DateTime lancamento) {
             Id = id;
             NomeLivro = nomeLivro;
             EditoraId = editoraId;
@@ -25,7 +26,7 @@ namespace Library.API.Models {
 
         public string Autor { get; set; }
 
-        public int Lancamento { get; set; }
+        public DateTime Lancamento { get; set; }
 
         
 

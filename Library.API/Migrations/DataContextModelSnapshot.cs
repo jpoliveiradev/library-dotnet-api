@@ -99,7 +99,7 @@ namespace Library.API.Migrations
                     b.Property<string>("Endereco")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("NomeUsuario")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -110,34 +110,34 @@ namespace Library.API.Migrations
                         new
                         {
                             Id = 1,
-                            Cidade = "Rua A",
+                            Cidade = "Cascavel",
                             Email = "Artur@gmail.com",
-                            Endereco = "Cascavel",
-                            Nome = "Artur"
+                            Endereco = "Rua A",
+                            NomeUsuario = "Artur"
                         },
                         new
                         {
                             Id = 2,
-                            Cidade = "Rua T",
+                            Cidade = "Caucaia",
                             Email = "Ana@gmail.com",
-                            Endereco = "Caucaia",
-                            Nome = "Ana"
+                            Endereco = "Rua T",
+                            NomeUsuario = "Ana"
                         },
                         new
                         {
                             Id = 3,
-                            Cidade = "Rua K",
+                            Cidade = "São Paulo",
                             Email = "Vilma@gmail.com",
-                            Endereco = "São Paulo",
-                            Nome = "Vilma"
+                            Endereco = "Rua K",
+                            NomeUsuario = "Vilma"
                         },
                         new
                         {
                             Id = 4,
-                            Cidade = "Rua E",
+                            Cidade = "Fortaleza",
                             Email = "Vitor@gmail.com",
-                            Endereco = "Fortaleza",
-                            Nome = "Vitor"
+                            Endereco = "Rua E",
+                            NomeUsuario = "Vitor"
                         });
                 });
 
@@ -196,8 +196,8 @@ namespace Library.API.Migrations
                     b.Property<int>("EditoraId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Lancamento")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("Lancamento")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NomeLivro")
                         .HasColumnType("TEXT");
@@ -214,7 +214,7 @@ namespace Library.API.Migrations
                             Id = 1,
                             Autor = "Navathe",
                             EditoraId = 2,
-                            Lancamento = 2002,
+                            Lancamento = new DateTime(2010, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NomeLivro = "Banco de Dados"
                         },
                         new
@@ -222,7 +222,7 @@ namespace Library.API.Migrations
                             Id = 2,
                             Autor = "Deitel",
                             EditoraId = 3,
-                            Lancamento = 2005,
+                            Lancamento = new DateTime(2010, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NomeLivro = "Java Prático"
                         },
                         new
@@ -230,7 +230,7 @@ namespace Library.API.Migrations
                             Id = 3,
                             Autor = "Deitel",
                             EditoraId = 3,
-                            Lancamento = 2010,
+                            Lancamento = new DateTime(2010, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NomeLivro = "Php"
                         },
                         new
@@ -238,7 +238,7 @@ namespace Library.API.Migrations
                             Id = 4,
                             Autor = "Cormen",
                             EditoraId = 3,
-                            Lancamento = 2021,
+                            Lancamento = new DateTime(2010, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NomeLivro = "Vue JS"
                         });
                 });
@@ -246,7 +246,7 @@ namespace Library.API.Migrations
             modelBuilder.Entity("Library.API.Models.Alugueis", b =>
                 {
                     b.HasOne("Library.API.Models.Clientes", "Cliente")
-                        .WithMany("Alugueis")
+                        .WithMany()
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
