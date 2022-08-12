@@ -8,22 +8,35 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Library.API.Controllers {
-    [Route("api/[controller]")]
-    [ApiController]
 
+    /// <summary>
+    /// 
+    /// </summary>
+    [ApiController]
+    [Route("api/[controller]")]
+
+    
     public class ClientesController : ControllerBase {
 
 
         private readonly IRepository _repo;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="repo"></param>
+        /// <param name="mapper"></param>
         public ClientesController(IRepository repo, IMapper mapper) {
 
             _repo = repo;
             _mapper = mapper;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("getRegister")]
         public IActionResult getRegister() {
 
@@ -31,7 +44,10 @@ namespace Library.API.Controllers {
             return Ok(new ClienteRegistrarDto());
         }
         
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Get() {
             var clientes = _repo.GetAllClientes();
@@ -39,6 +55,11 @@ namespace Library.API.Controllers {
             return Ok(_mapper.Map<IEnumerable<ClienteDto>>(clientes));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET api/clientes/
         [HttpGet("{id}")]
         public IActionResult GetById(int id) {
@@ -61,6 +82,11 @@ namespace Library.API.Controllers {
             return Ok(cliente);
         }*/
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         // POST api/clientes/name
         [HttpPost]
         public IActionResult Post(ClienteDto model) {

@@ -40,6 +40,16 @@ namespace Library.API {
 
             services.AddScoped<IRepository, Repository>();
 
+            services.AddSwaggerGen(options => {
+                options.SwaggerDoc(
+                    "LibraryApi",
+                     new Microsoft.OpenApi.Models.OpenApiInfo() {
+                       Title = "Library API",
+                       Version = "1.0"
+                     });
+
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +59,14 @@ namespace Library.API {
             }
 
             app.UseRouting();
+
+            app.UseSwagger()
+                .UseSwaggerUI(options => {
+                    options.SwaggerEndpoint("/swagger/LibraryApi/swagger.json", "LibraryApi");
+                    options.RoutePrefix = "";
+
+
+                });
 
             //app.UseAuthorization();
 
