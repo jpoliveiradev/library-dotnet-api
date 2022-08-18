@@ -1,10 +1,13 @@
 ﻿using Library.API.Models;
-using Library.API.V1.Dtos;
+using Library.API.V2.Dtos;
 using AutoMapper;
 
-namespace Library.API.Helpers {
-    public class LibraryProfile : Profile {
-        public LibraryProfile() {
+namespace Library.API.V2.Profiles
+{
+    public class LibraryProfile : Profile
+    {
+        public LibraryProfile()
+        {
 
             CreateMap<Clientes, ClienteDto>(
 
@@ -16,7 +19,7 @@ namespace Library.API.Helpers {
             CreateMap<ClienteDto, Clientes>();
             CreateMap<Clientes, ClienteRegistrarDto>().ReverseMap();
 
-            
+
 
 
         }

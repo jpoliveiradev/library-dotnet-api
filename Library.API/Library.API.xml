@@ -277,6 +277,12 @@
             <param name="repo"></param>
             <param name="mapper"></param>
         </member>
+        <member name="M:Library.API.V2.Controllers.ClientesController.Get">
+            <summary>
+            Método para retornar todos os Clientes
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Library.API.V2.Controllers.ClientesController.GetById(System.Int32)">
             <summary>
              Método para retornar um Cliente pelo id

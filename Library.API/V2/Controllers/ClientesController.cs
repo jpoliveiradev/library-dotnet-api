@@ -33,6 +33,16 @@ namespace Library.API.V2.Controllers {
             _repo = repo;
             _mapper = mapper;
         }
+        /// <summary>
+        /// Método para retornar todos os Clientes
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult Get() {
+            var clientes = _repo.GetAllClientes();
+
+            return Ok(_mapper.Map<IEnumerable<ClienteDto>>(clientes));
+        }
 
 
         /// <summary>
