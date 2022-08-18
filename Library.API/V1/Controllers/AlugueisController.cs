@@ -5,9 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Library.API.Controllers {
-    [Route("api/[controller]")]
+namespace Library.API.V1.Controllers {
+
+    /// <summary>
+    /// 
+    /// </summary>
     [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
 
     public class AlugueisController : ControllerBase {
 
@@ -15,18 +20,24 @@ namespace Library.API.Controllers {
         private readonly IRepository _repo;
 
 
-        // aaaaaaaaaaaaaabbbbbbbbbbaaa
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="repo"></param>
 
 
-
-       //sprivate readonly Imapper _mapper;
+        //sprivate readonly Imapper _mapper;
         public AlugueisController(IRepository repo //, IMapper mapper
         ) {
 
             _repo = repo;
-           // _mapper = mapper;
+            // _mapper = mapper;
         }
 
+        /// <summary>
+        /// Método para retornar todos os Alugueis
+        /// </summary>
+        /// <returns></returns>
 
         [HttpGet]
         public IActionResult Get() {
@@ -34,9 +45,15 @@ namespace Library.API.Controllers {
             return Ok(result);
         }
 
+        /// <summary>
+        /// Método para retornar um Aluguel pelo id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
         // GET api/Alugueis/1
-         [HttpGet("{id}")]
-         public IActionResult GetById(int id) {
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id) {
 
             var aluguel = _repo.GetAluguelById(id);
             if (aluguel == null) return BadRequest("O aluguel não foi encontrado!");
@@ -44,19 +61,14 @@ namespace Library.API.Controllers {
             return Ok(aluguel);
         }
 
-        /*// GET api/Alugueis/nome
-         [HttpGet("ByName")]
-         public IActionResult GetByName(int LivroId) {
-
-            var aluguel = _context.Alugueis.FirstOrDefault(client => client.Id == id);
-            if (aluguel == null) return BadRequest("O aluguel não foi encontrado!");
-
-            return Ok(aluguel);
-         }*/
-        
+        /// <summary>
+        /// Método para Adicionar um Aluguel
+        /// </summary>
+        /// <param name="alugueis"></param>
+        /// <returns></returns>
         // POST api/Alugueis/name
-         [HttpPost]
-         public IActionResult Post(Alugueis alugueis) {
+        [HttpPost]
+        public IActionResult Post(Alugueis alugueis) {
 
             _repo.Add(alugueis);
             if (_repo.SaveChanges()) {
@@ -66,9 +78,14 @@ namespace Library.API.Controllers {
             return BadRequest("O aluguel não foi Cadastrado!");
         }
 
-        // PUT api/Alugueis/id
-         [HttpPut("{id}")]
-         public IActionResult Put(int id, Alugueis alugueis) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="alugueis"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Alugueis alugueis) {
 
             var alu = _repo.GetAluguelById(id);
             if (alu == null) return BadRequest("O aluguel não foi encontrado!");
@@ -81,9 +98,14 @@ namespace Library.API.Controllers {
             return BadRequest("O aluguel não foi Atualizado!");
         }
 
-        // PATCH  api/Alugueis/id
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="alugueis"></param>
+        /// <returns></returns>
         [HttpPatch("{id}")]
-         public IActionResult Patch(int id, Alugueis alugueis) {
+        public IActionResult Patch(int id, Alugueis alugueis) {
 
             var alu = _repo.GetAluguelById(id);
             if (alu == null) return BadRequest("O aluguel não foi encontrado!");
@@ -95,10 +117,16 @@ namespace Library.API.Controllers {
             }
             return BadRequest("O aluguel não foi Atualizado!");
         }
+
+        /// <summary>
+        /// Método para deletar um Aluguel através do Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 
         // DELETE api/<AlugueisController>/5
         [HttpDelete("{id}")]
-         public IActionResult Delete(int id) {
+        public IActionResult Delete(int id) {
 
             var alu = _repo.GetAluguelById(id);
             if (alu == null) return BadRequest("O aluguel não foi encontrado!");
@@ -110,7 +138,7 @@ namespace Library.API.Controllers {
             }
             return BadRequest("O aluguel não foi Deletado!");
         }
-        
+
 
 
 

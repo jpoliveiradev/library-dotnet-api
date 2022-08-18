@@ -1,4 +1,4 @@
-﻿namespace Library.API.Dtos {
+﻿namespace Library.API.V1.Dtos {
     public class ClienteDto {
         public int Id { get; set; }
 

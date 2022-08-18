@@ -1,21 +1,22 @@
 ﻿using AutoMapper;
 using Library.API.Data;
-using Library.API.Dtos;
+using Library.API.V1.Dtos;
 using Library.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Library.API.Controllers {
+namespace Library.API.V1.Controllers {
 
     /// <summary>
     /// 
     /// </summary>
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
 
-    
+
     public class ClientesController : ControllerBase {
 
 
@@ -34,7 +35,7 @@ namespace Library.API.Controllers {
         }
 
         /// <summary>
-        /// 
+        /// Método para retornar todos os ClientesDto
         /// </summary>
         /// <returns></returns>
         [HttpGet("getRegister")]
@@ -43,9 +44,9 @@ namespace Library.API.Controllers {
 
             return Ok(new ClienteRegistrarDto());
         }
-        
+
         /// <summary>
-        /// 
+        /// Método para retornar todos os Clientes
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -56,11 +57,11 @@ namespace Library.API.Controllers {
         }
 
         /// <summary>
-        /// 
+        ///  Método para retornar um Cliente pelo id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        // GET api/clientes/
+
         [HttpGet("{id}")]
         public IActionResult GetById(int id) {
 
@@ -72,22 +73,12 @@ namespace Library.API.Controllers {
             return Ok(clienteDto);
         }
 
-        /*// GET api/clientes/nome
-        [HttpGet("ByName")]
-        public IActionResult GetByName(string nome) {
-
-            var cliente = _context.Clientes.FirstOrDefault(client => client.Nome.Contains(nome));
-            if (cliente == null) return BadRequest("O Cliente não foi encontrado!");
-
-            return Ok(cliente);
-        }*/
-
         /// <summary>
-        /// 
+        ///  Método para Adicionar um Cliente
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        // POST api/clientes/name
+
         [HttpPost]
         public IActionResult Post(ClienteDto model) {
 
@@ -102,7 +93,13 @@ namespace Library.API.Controllers {
             return BadRequest("O Cliente não foi Cadastrado!");
         }
 
-        // PUT api/clientes/name
+        /// <summary>
+        /// Método para atualizar um Cliente através do Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+
         [HttpPut("{id}")]
         public IActionResult Put(int id, ClienteDto model) {
 
@@ -119,7 +116,13 @@ namespace Library.API.Controllers {
             return BadRequest("O Cliente não foi Atualizado!");
         }
 
-        // PATCH  api/clientes/name
+        /// <summary>
+        /// Método para atualizar um Cliente através do Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+
         [HttpPatch("{id}")]
         public IActionResult Patch(int id, ClienteDto model) {
 
@@ -136,7 +139,12 @@ namespace Library.API.Controllers {
             return BadRequest("O Cliente não foi Atualizado!");
         }
 
-        // DELETE api/<ClientesController>/5
+        /// <summary>
+        /// Método para deletar um Cliente através do Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id) {
 
