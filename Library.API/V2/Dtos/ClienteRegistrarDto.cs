@@ -1,7 +1,7 @@
 ﻿namespace Library.API.V2.Dtos {
     public class ClienteRegistrarDto {
 
-       
+
         public int Id { get; set; }
 
         public string NomeUsuario { get; set; }

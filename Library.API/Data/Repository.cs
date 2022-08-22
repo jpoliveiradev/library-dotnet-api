@@ -1,6 +1,9 @@
-﻿using Library.API.Models;
+﻿using Library.API.Helpers;
+using Library.API.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Library.API.Data {
     public class Repository : IRepository {
@@ -26,12 +29,33 @@ namespace Library.API.Data {
         }
 
         // Clientes
+        public async Task<PageList<Clientes>> GetAllClientesAsync(PageParams pageParams) {
+            IQueryable<Clientes> query = _context.Clientes;
+
+            query = query.AsNoTracking().OrderBy(c => c.Id);
+
+            if (!string.IsNullOrEmpty(pageParams.NomeUsuario)) {
+                query = query.Where(c => c.NomeUsuario.ToUpper()
+                                                      .Contains(pageParams.NomeUsuario.ToUpper()));
+            }
+            
+            if (!string.IsNullOrEmpty(pageParams.Email)) {
+                query = query.Where(c => c.Email.ToUpper()
+                                                      .Contains(pageParams.Email.ToUpper()));
+            }
+
+            // return await query.ToArrayAsync();
+            return await PageList<Clientes>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
+        }
+
+
         public Clientes[] GetAllClientes() {
             IQueryable<Clientes> query = _context.Clientes;
 
             query = query.AsNoTracking().OrderBy(c => c.Id);
             return query.ToArray();
         }
+
         public Clientes GetClienteById(int clienteId) {
             IQueryable<Clientes> query = _context.Clientes;
 
@@ -43,6 +67,18 @@ namespace Library.API.Data {
         }
 
         // Editoras
+        public async Task<PageList<Editoras>> GetAllEditorasAsync(PageParams pageParams) {
+            IQueryable<Editoras> query = _context.Editoras;
+
+            query = query.AsNoTracking().OrderBy(ed => ed.Id);
+
+            if (!string.IsNullOrEmpty(pageParams.NomeEditora)) {
+                query = query.Where(ed => ed.NomeEditora.ToUpper()
+                                                      .Contains(pageParams.NomeEditora.ToUpper()));
+            }
+
+            return await PageList<Editoras>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
+        }
         public Editoras[] GetAllEditoras() {
             IQueryable<Editoras> query = _context.Editoras;
 
@@ -60,7 +96,28 @@ namespace Library.API.Data {
         }
 
         // Livros
+        public async Task<PageList<Livros>> GetAllLivrosAsync(PageParams pageParams, bool includeEditora = false) {
+            IQueryable<Livros> query = _context.Livros;
 
+
+            if (includeEditora) {
+                query = query.Include(l => l.Editora);
+            }
+
+            query = query.AsNoTracking().OrderBy(l => l.Id);
+
+            if (!string.IsNullOrEmpty(pageParams.NomeLivro)) {
+                query = query.Where(l => l.NomeLivro.ToUpper()
+                                                      .Contains(pageParams.NomeLivro.ToUpper()));
+            }
+
+            if (!string.IsNullOrEmpty(pageParams.Autor)) {
+                query = query.Where(l => l.Autor.ToUpper()
+                                                      .Contains(pageParams.Autor.ToUpper()));
+            }
+
+            return await PageList<Livros>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
+        }
         public Livros[] GetAllLivros(bool includeEditora = false) {
             IQueryable<Livros> query = _context.Livros;
 
@@ -105,18 +162,26 @@ namespace Library.API.Data {
         }
 
 
-        public Livros[] GetAllLivrosByEditoraName() {
-            throw new System.NotImplementedException();
-        }
-
         //Alugueis
+        public async Task<PageList<Alugueis>> GetAllAlugueisAsync(PageParams pageParams) {
+            IQueryable<Alugueis> query = _context.Alugueis;
+
+
+
+            query = query.Include(al => al.Livro);
+            query = query.Include(al => al.Cliente);
+
+            query = query.AsNoTracking().OrderBy(al => al.Id);
+
+            return await PageList<Alugueis>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
+        }
         public Alugueis[] GetAllAlugueis() {
             IQueryable<Alugueis> query = _context.Alugueis;
 
 
 
-            query = query.Include(al => al.Cliente);
             query = query.Include(al => al.Livro);
+            query = query.Include(al => al.Cliente);
 
             query = query.AsNoTracking().OrderBy(al => al.Id);
 
@@ -136,14 +201,6 @@ namespace Library.API.Data {
                 .Where(aluguel => aluguel.Id == aluguelId);
 
             return query.FirstOrDefault();
-        }
-
-        public Alugueis[] GetAllAlugueisByClientesName() {
-            throw new System.NotImplementedException();
-        }
-
-        public Alugueis[] GetAllAlugueisByLivrosName() {
-            throw new System.NotImplementedException();
         }
 
 

@@ -238,7 +238,7 @@
             </summary>
             <param name="repo"></param>
         </member>
-        <member name="M:Library.API.V2.Controllers.AlugueisController.Get">
+        <member name="M:Library.API.V2.Controllers.AlugueisController.Get(Library.API.Helpers.PageParams)">
             <summary>
             Método para retornar todos os Alugueis
             </summary>
@@ -277,7 +277,7 @@
             <param name="repo"></param>
             <param name="mapper"></param>
         </member>
-        <member name="M:Library.API.V2.Controllers.ClientesController.Get">
+        <member name="M:Library.API.V2.Controllers.ClientesController.Get(Library.API.Helpers.PageParams)">
             <summary>
             Método para retornar todos os Clientes
             </summary>
@@ -292,7 +292,7 @@
         </member>
         <member name="M:Library.API.V2.Controllers.ClientesController.Post(Library.API.V2.Dtos.ClienteDto)">
             <summary>
-             Método para Adicionar um Cliente
+             Método para Adicionar um ClienteDto
             </summary>
             <param name="model"></param>
             <returns></returns>
@@ -331,7 +331,7 @@
             </summary>
             <param name="repo"></param>
         </member>
-        <member name="M:Library.API.V2.Controllers.EditorasController.Get">
+        <member name="M:Library.API.V2.Controllers.EditorasController.Get(Library.API.Helpers.PageParams)">
             <summary>
             Método para retornar todas as Editoras
             </summary>
@@ -385,7 +385,7 @@
             </summary>
             <param name="repo"></param>
         </member>
-        <member name="M:Library.API.V2.Controllers.LivrosController.Get">
+        <member name="M:Library.API.V2.Controllers.LivrosController.Get(Library.API.Helpers.PageParams)">
             <summary>
             Método para retornar todos os Livros
             </summary>

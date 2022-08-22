@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Library.API.Data;
+using Library.API.Helpers;
 using Library.API.Models;
 using Library.API.V2.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Library.API.V2.Controllers {
 
@@ -38,10 +40,14 @@ namespace Library.API.V2.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Get() {
-            var clientes = _repo.GetAllClientes();
+        public async Task<IActionResult> Get([FromQuery] PageParams pageParams) {
+            var clientes = await _repo.GetAllClientesAsync(pageParams);
 
-            return Ok(_mapper.Map<IEnumerable<ClienteDto>>(clientes));
+            var clientesResult = _mapper.Map<IEnumerable<ClienteDto>>(clientes);
+
+            Response.AddPagination(clientes.CurrentPage, clientes.PageSize, clientes.TotalCount, clientes.TotalPages);
+
+            return Ok(clientesResult);
         }
 
 
@@ -63,7 +69,7 @@ namespace Library.API.V2.Controllers {
         }
 
         /// <summary>
-        ///  Método para Adicionar um Cliente
+        ///  Método para Adicionar um ClienteDto
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>

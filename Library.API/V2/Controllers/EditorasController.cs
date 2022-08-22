@@ -1,9 +1,11 @@
 ﻿using Library.API.Data;
+using Library.API.Helpers;
 using Library.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Library.API.V2.Controllers {
 
@@ -30,8 +32,8 @@ namespace Library.API.V2.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Get() {
-            var result = _repo.GetAllEditoras();
+        public async Task<IActionResult> Get([FromQuery] PageParams pageParams) {
+            var result = await _repo.GetAllEditorasAsync(pageParams);
             return Ok(result);
         }
 
@@ -64,7 +66,7 @@ namespace Library.API.V2.Controllers {
                 return Ok(editoras);
 
             }
-            return BadRequest("O Cliente não foi Cadastrado!");
+            return BadRequest("A Editora não foi Cadastrado!");
         }
 
         /// <summary>

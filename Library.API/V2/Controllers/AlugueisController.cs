@@ -1,9 +1,11 @@
 ﻿using Library.API.Data;
+using Library.API.Helpers;
 using Library.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Library.API.V2.Controllers {
 
@@ -40,8 +42,8 @@ namespace Library.API.V2.Controllers {
         /// <returns></returns>
 
         [HttpGet]
-        public IActionResult Get() {
-            var result = _repo.GetAllAlugueis();
+        public async Task<IActionResult> Get([FromQuery] PageParams pageParams) {
+            var result = await _repo.GetAllAlugueisAsync(pageParams);
             return Ok(result);
         }
 

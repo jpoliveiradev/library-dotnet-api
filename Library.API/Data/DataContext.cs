@@ -15,7 +15,7 @@ namespace Library.API.Data {
 
         protected override void OnModelCreating(ModelBuilder builder) {
 
-            builder.Entity<Clientes>()
+           builder.Entity<Clientes>()
             .HasData(new List<Clientes>(){
                 new Clientes(1, "Artur",  "Rua A","Cascavel", "Artur@gmail.com"),
                 new Clientes(2, "Ana",  "Rua T","Caucaia", "Ana@gmail.com"),
