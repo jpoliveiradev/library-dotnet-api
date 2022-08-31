@@ -35,10 +35,10 @@ namespace Library.API.Data {
 
             builder.Entity<Livros>()
             .HasData(new List<Livros>(){
-                new Livros(1, "Banco de Dados", 2, "Navathe", DateTime.Parse("14/10/2010")),
-                new Livros(2, "Java Prático", 3, "Deitel", DateTime.Parse("14/10/2010")),
-                new Livros(3, "Php", 3, "Deitel", DateTime.Parse("14/10/2010")),
-                new Livros(4, "Vue JS", 3, "Cormen", DateTime.Parse("14/10/2010"))
+                new Livros(1, "Banco de Dados", 2, "Navathe", DateTime.Parse("14/10/2010"), 5),
+                new Livros(2, "Java Prático", 3, "Deitel", DateTime.Parse("14/10/2010"), 5),
+                new Livros(3, "Php", 3, "Deitel", DateTime.Parse("14/10/2010"), 5),
+                new Livros(4, "Vue JS", 3, "Cormen", DateTime.Parse("14/10/2010"), 5)
 
             });
 

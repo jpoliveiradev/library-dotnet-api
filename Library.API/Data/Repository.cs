@@ -1,7 +1,6 @@
 ﻿using Library.API.Helpers;
 using Library.API.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -38,13 +37,13 @@ namespace Library.API.Data {
                 query = query.Where(c => c.NomeUsuario.ToUpper()
                                                       .Contains(pageParams.NomeUsuario.ToUpper()));
             }
-            
+
             if (!string.IsNullOrEmpty(pageParams.Email)) {
                 query = query.Where(c => c.Email.ToUpper()
                                                       .Contains(pageParams.Email.ToUpper()));
             }
 
-            // return await query.ToArrayAsync();
+
             return await PageList<Clientes>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
         }
 
@@ -62,7 +61,20 @@ namespace Library.API.Data {
             query = query.AsNoTracking()
                 .OrderBy(c => c.Id)
                 .Where(cliente => cliente.Id == clienteId);
+            return query.FirstOrDefault();
+        }
+        public Clientes GetClienteByEmail(string email) {
+            IQueryable<Clientes> query = _context.Clientes;
+            query = query.Where(c => c.Email == email);
+            return query.FirstOrDefault();
+        }
 
+        public Alugueis GetClienteByAluguel(int clienteId) {
+            IQueryable<Alugueis> query = _context.Alugueis;
+
+            query = query.AsNoTracking()
+                .OrderBy(c => c.Id)
+                .Where(c => c.ClienteId == clienteId);
             return query.FirstOrDefault();
         }
 
@@ -91,6 +103,19 @@ namespace Library.API.Data {
             query = query.AsNoTracking()
                 .OrderBy(ed => ed.Id)
                 .Where(editora => editora.Id == editoraId);
+
+            return query.FirstOrDefault();
+        }
+        public Editoras GetEditoraByNome(string nome) {
+            IQueryable<Editoras> query = _context.Editoras;
+            query = query.Where(e => e.NomeEditora == nome);
+            return query.FirstOrDefault();
+        }
+        public Livros GetEditoraByLivro(int editoraId) {
+            IQueryable<Livros> query = _context.Livros;
+
+            query = query.AsNoTracking().OrderBy(l => l.Id)
+                                        .Where(l => l.EditoraId == editoraId);
 
             return query.FirstOrDefault();
         }
@@ -160,6 +185,20 @@ namespace Library.API.Data {
 
             return query.ToArray();
         }
+        public Livros GetLivroByNome(string nome) {
+            IQueryable<Livros> query = _context.Livros;
+            query = query.Where(e => e.NomeLivro == nome);
+            return query.FirstOrDefault();
+        }
+        public Alugueis GetLivroByAluguel(int livroId) {
+            IQueryable<Alugueis> query = _context.Alugueis;
+
+            query = query.AsNoTracking().OrderBy(l => l.Id)
+                                        .Where(l => l.LivroId == livroId);
+
+            return query.FirstOrDefault();
+        }
+
 
 
         //Alugueis
@@ -202,7 +241,5 @@ namespace Library.API.Data {
 
             return query.FirstOrDefault();
         }
-
-
     }
 }

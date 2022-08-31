@@ -1,10 +1,8 @@
 ﻿using Library.API.Data;
 using Library.API.Helpers;
 using Library.API.Models;
+using Library.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Library.API.V2.Controllers {
@@ -17,13 +15,16 @@ namespace Library.API.V2.Controllers {
     [Route("api/v{version:apiVersion}/[controller]")]
 
     public class EditorasController : ControllerBase {
+        private readonly IEditoraService _service;
         private readonly IRepository _repo;
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="service"></param>
         /// <param name="repo"></param>
-        public EditorasController(IRepository repo) {
+        public EditorasController(IEditoraService service, IRepository repo) {
+            _service = service;
             _repo = repo;
         }
 
@@ -53,20 +54,19 @@ namespace Library.API.V2.Controllers {
         }
 
         /// <summary>
-        /// Método adicionar adicionar uma Editora
+        /// 
         /// </summary>
-        /// <param name="editoras"></param>
+        /// <param name="editora"></param>
         /// <returns></returns>
 
         [HttpPost]
-        public IActionResult Post(Editoras editoras) {
+        public IActionResult Post(Editoras editora) {
 
-            _repo.Add(editoras);
-            if (_repo.SaveChanges()) {
-                return Ok(editoras);
+            var result = _service.EditoraCreate(editora);
+            if (result == null) return BadRequest("Editora já cadastrada");
 
-            }
-            return BadRequest("A Editora não foi Cadastrado!");
+            return Ok(result);
+
         }
 
         /// <summary>
@@ -109,10 +109,18 @@ namespace Library.API.V2.Controllers {
         [HttpDelete("{id}")]
         public IActionResult Delete(int id) {
 
+            var livroCadastrado = _repo.GetEditoraByLivro(id);
+            if (livroCadastrado != null) {
+                return BadRequest("Erro: Editora com livros cadastrados, não poder ser apagada!");
+            }
+
             var editora = _repo.GetEditoraById(id);
             if (editora == null) return BadRequest("A Editora não foi encontrado!");
+
             _repo.Delete(editora);
-            return Ok();
+            _repo.SaveChanges();
+            return Ok("Editora Deletada!");
+
         }
 
 

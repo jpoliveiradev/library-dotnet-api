@@ -1,10 +1,9 @@
 ﻿using Library.API.Data;
 using Library.API.Helpers;
 using Library.API.Models;
+using Library.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 
 namespace Library.API.V2.Controllers {
@@ -17,16 +16,16 @@ namespace Library.API.V2.Controllers {
     [Route("api/v{version:apiVersion}/[controller]")]
 
     public class LivrosController : ControllerBase {
-
-
+        private readonly ILivroService _service;
         private readonly IRepository _repo;
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="service"></param>
         /// <param name="repo"></param>
-        public LivrosController(IRepository repo) {
-
+        public LivrosController(ILivroService service, IRepository repo) {
+            _service = service;
             _repo = repo;
         }
 
@@ -58,17 +57,21 @@ namespace Library.API.V2.Controllers {
         /// <summary>
         /// Método para adicionar um Livro
         /// </summary>
-        /// <param name="livros"></param>
+        /// <param name="livro"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Post(Livros livros) {
+        public IActionResult Post(Livros livro) {
 
-            _repo.Add(livros);
-            if (_repo.SaveChanges()) {
-                return Ok(livros);
+            var result = _service.LivroCreate(livro);
+            DateTime dataAtual = DateTime.Now;
 
+            if (livro.Lancamento > dataAtual) {
+                return BadRequest("Erro: Data de lançamento depois do dia atual, não pode ser cadastrado");
             }
-            return BadRequest("O Livro não foi Cadastrado!");
+            else if (result == null) return BadRequest("Livro já cadastrado!");
+
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -118,15 +121,17 @@ namespace Library.API.V2.Controllers {
         [HttpDelete("{id}")]
         public IActionResult Delete(int id) {
 
+            var livroAluguel = _repo.GetLivroByAluguel(id);
+            if (livroAluguel != null) {
+                return BadRequest("Erro: Livro alugado, não pode ser apagado!");
+            }
+
             var livro = _repo.GetLivroById(id);
             if (livro == null) return BadRequest("O Livro não foi encontrado!");
 
             _repo.Delete(livro);
-            if (_repo.SaveChanges()) {
-                return Ok("Livro Deletado!");
-
-            }
-            return BadRequest("O Livro não foi Deletado!");
+            _repo.SaveChanges();
+            return Ok("Livro Deletado!");
         }
 
 

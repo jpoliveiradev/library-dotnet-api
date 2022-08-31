@@ -2,11 +2,10 @@
 using Library.API.Data;
 using Library.API.Helpers;
 using Library.API.Models;
+using Library.API.Services.Interfaces;
 using Library.API.V2.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Library.API.V2.Controllers {
@@ -23,16 +22,19 @@ namespace Library.API.V2.Controllers {
 
 
         private readonly IRepository _repo;
+        private readonly IClienteService _clienteService;
         private readonly IMapper _mapper;
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="service"></param>
         /// <param name="repo"></param>
         /// <param name="mapper"></param>
-        public ClientesController(IRepository repo, IMapper mapper) {
+        public ClientesController(IClienteService service, IRepository repo, IMapper mapper) {
 
             _repo = repo;
+            _clienteService = service;
             _mapper = mapper;
         }
         /// <summary>
@@ -79,13 +81,11 @@ namespace Library.API.V2.Controllers {
 
             var cliente = _mapper.Map<Clientes>(model);
 
-            _repo.Add(cliente);
-            if (_repo.SaveChanges()) {
+            var result = _clienteService.ClienteCreate(cliente);
+            if (result == null) return BadRequest("Email já cadastrado");
 
-                return Created($"/api/clientes/{model.Id}", _mapper.Map<ClienteDto>(cliente));
-            }
+            return Ok(result);
 
-            return BadRequest("O Cliente não foi Cadastrado!");
         }
 
         /// <summary>
@@ -143,20 +143,20 @@ namespace Library.API.V2.Controllers {
         [HttpDelete("{id}")]
         public IActionResult Delete(int id) {
 
+            var livroAlugado = _repo.GetClienteByAluguel(id);
+            if (livroAlugado != null) {
+                return BadRequest("Erro: Ação não foi possivel pois há alugueis registrados com esse cliente");
+
+            }
+
             var cliente = _repo.GetClienteById(id);
+
             if (cliente == null) return BadRequest("O Cliente não foi encontrado!");
 
             _repo.Delete(cliente);
-            if (_repo.SaveChanges()) {
+            _repo.SaveChanges();
+            return Ok("Cliente Deletado!");
 
-                return Ok("Cliente Deletado!");
-            }
-            return BadRequest("O Cliente não foi Deletado!");
         }
-
-
-
-
-
     }
 }

@@ -1,5 +1,9 @@
 using AutoMapper;
+using FluentValidation.AspNetCore;
 using Library.API.Data;
+using Library.API.Services;
+using Library.API.Services.Interfaces;
+using Library.API.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -8,13 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Library.API {
     public class Startup {
@@ -28,20 +28,32 @@ namespace Library.API {
         public void ConfigureServices(IServiceCollection services) {
 
             services.AddDbContext<DataContext>(
-                context => context.UseSqlite(Configuration.GetConnectionString("Default"))
+                context => context.UseMySql(Configuration.GetConnectionString("MysqlConnection"))
 
 
             );
 
 
             services.AddControllers()
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<ClienteValidator>())
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<EditoraValidator>())
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<LivroValidator>())
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<AluguelValidator>())
                 .AddNewtonsoftJson(
                     opt => opt.SerializerSettings.ReferenceLoopHandling =
                             Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IClienteService, ClienteService>();
+            services.AddScoped<IEditoraService, EditoraService>();
+            services.AddScoped<ILivroService, LivroService>();
+            services.AddScoped<IAluguelService, AluguelService>();
+
+
+
 
             services.AddVersionedApiExplorer(options => {
                 options.GroupNameFormat = "'v'VVV";
@@ -49,8 +61,8 @@ namespace Library.API {
 
             })
             .AddApiVersioning(options => {
-                options.DefaultApiVersion = new ApiVersion(1, 0);
                 options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
                 options.ReportApiVersions = true;
             });
 
@@ -89,7 +101,7 @@ namespace Library.API {
                     foreach (var description in apiProviderDescription.ApiVersionDescriptions) {
 
                         options.SwaggerEndpoint(
-                            $"/swagger/{description.GroupName}/swagger.json", 
+                            $"/swagger/{description.GroupName}/swagger.json",
                             description.GroupName.ToUpperInvariant());
                         options.RoutePrefix = "";
                     }

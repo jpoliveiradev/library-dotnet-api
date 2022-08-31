@@ -2,9 +2,10 @@
 using System;
 
 namespace Library.API.V2.Dtos {
-    public class AluguelDto {
+    public class AluguelDtoUpdate {
 
-        
+        public int Id { get; set; }
+
         public int LivroId { get; set; }
 
         public int ClienteId { get; set; }
@@ -12,5 +13,7 @@ namespace Library.API.V2.Dtos {
         public DateTime DataAluguel { get; set; }
 
         public DateTime DataPrevisao { get; set; }
+
+        public DateTime DataDevolucao { get; set; }
     }
 }

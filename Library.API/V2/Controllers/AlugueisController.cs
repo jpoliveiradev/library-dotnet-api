@@ -1,10 +1,11 @@
-﻿using Library.API.Data;
+﻿using AutoMapper;
+using Library.API.Data;
 using Library.API.Helpers;
 using Library.API.Models;
+using Library.API.Services;
+using Library.API.Services.Interfaces;
+using Library.API.V2.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Library.API.V2.Controllers {
@@ -17,22 +18,24 @@ namespace Library.API.V2.Controllers {
     [Route("api/v{version:apiVersion}/[controller]")]
 
     public class AlugueisController : ControllerBase {
-
-
+        private readonly IAluguelService _service;
         private readonly IRepository _repo;
+        private readonly IMapper _mapper;
 
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="service"></param>
         /// <param name="repo"></param>
+        /// <param name="mapper"></param>
 
 
         //sprivate readonly Imapper _mapper;
-        public AlugueisController(IRepository repo //, IMapper mapper
-        ) {
-
+        public AlugueisController(IAluguelService service, IRepository repo, IMapper mapper) {
+            _service = service;
             _repo = repo;
+            _mapper = mapper;
             // _mapper = mapper;
         }
 
@@ -64,20 +67,44 @@ namespace Library.API.V2.Controllers {
         }
 
         /// <summary>
-        /// Método para Adicionar um Aluguel
+        /// 
         /// </summary>
-        /// <param name="alugueis"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        // POST api/Alugueis/name
         [HttpPost]
-        public IActionResult Post(Alugueis alugueis) {
+        public IActionResult Post(AluguelDto model) {
 
-            _repo.Add(alugueis);
-            if (_repo.SaveChanges()) {
-                return Ok(alugueis);
+            var aluguel = _mapper.Map<Alugueis>(model);
 
+            var livro = _repo.GetLivroById(model.LivroId);
+            
+            if (livro.Quantidade == 0) {
+                return BadRequest("Erro: Livro indisponivel para aluguel, aguarde chegar mais quantidades!");
             }
-            return BadRequest("O aluguel não foi Cadastrado!");
+
+            var result = _service.AluguelCreate(aluguel);
+
+            if (result == null) return BadRequest("Previsão de Devolução anterior a data de Aluguel!");
+
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>,
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        public IActionResult Put(AluguelDtoUpdate model) {
+
+            var aluguel = _mapper.Map<Alugueis>(model);
+
+            var result = _service.AluguelUpdate(aluguel);
+            if (result == null) return BadRequest("Data de Devolução anterior a data de Aluguel!");
+
+            return Ok(result);
+
         }
 
         /// <summary>

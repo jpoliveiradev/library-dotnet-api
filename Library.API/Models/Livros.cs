@@ -7,12 +7,13 @@ namespace Library.API.Models {
 
         }
 
-        public Livros(int id, string nomeLivro, int editoraId, string autor, DateTime lancamento) {
+        public Livros(int id, string nomeLivro, int editoraId, string autor, DateTime lancamento, int quantidade) {
             Id = id;
             NomeLivro = nomeLivro;
             EditoraId = editoraId;
             Autor = autor;
             Lancamento = lancamento;
+            Quantidade = quantidade;
 
         }
 
@@ -28,7 +29,9 @@ namespace Library.API.Models {
 
         public DateTime Lancamento { get; set; }
 
-        
+        public int Quantidade { get; set; }
+
+
 
 
 
