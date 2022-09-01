@@ -1,10 +1,12 @@
-﻿using Library.API.Models;
+﻿
 using System;
 
-namespace Library.API.V2.Dtos {
-    public class AluguelDtoUpdate {
+namespace Library.API.V2.Dtos.AluguelUpdateDto 
+{
+    public class AluguelUpdateDto
+    {
 
-        public int Id { get; set; }
+       public int Id { get; set; }
 
         public int LivroId { get; set; }
 

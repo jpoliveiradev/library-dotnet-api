@@ -5,7 +5,6 @@ namespace Library.API.Helpers {
 
         public const int MaxPageSize = 50;
         public int PageNumber { get; set; } = 1;
-        public int source { get; set; }
 
         public int pageSize = 10;
 
@@ -16,7 +15,6 @@ namespace Library.API.Helpers {
 
         //Clientes
         public string NomeUsuario { get; set; } = string.Empty;
-
 
         public string Email { get; set; } = string.Empty;
 

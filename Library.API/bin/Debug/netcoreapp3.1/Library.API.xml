@@ -30,14 +30,14 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Library.API.V2.Controllers.AlugueisController.Post(Library.API.V2.Dtos.AluguelDto)">
+        <member name="M:Library.API.V2.Controllers.AlugueisController.Post(Library.API.V2.Dtos.AluguelDto.AluguelDto)">
             <summary>
             
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:Library.API.V2.Controllers.AlugueisController.Put(Library.API.V2.Dtos.AluguelDtoUpdate)">
+        <member name="M:Library.API.V2.Controllers.AlugueisController.Put(Library.API.V2.Dtos.AluguelUpdateDto.AluguelUpdateDto)">
             <summary>
             
             </summary>,
@@ -77,14 +77,14 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Library.API.V2.Controllers.ClientesController.Post(Library.API.V2.Dtos.ClienteDto)">
+        <member name="M:Library.API.V2.Controllers.ClientesController.Post(Library.API.V2.Dtos.ClienteCreateDto.ClienteCreateDto)">
             <summary>
              Método para Adicionar um ClienteDto
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:Library.API.V2.Controllers.ClientesController.Put(System.Int32,Library.API.V2.Dtos.ClienteDto)">
+        <member name="M:Library.API.V2.Controllers.ClientesController.Put(System.Int32,Library.API.V2.Dtos.ClienteDto.ClienteDto)">
             <summary>
             Método para atualizar um Cliente através do Id
             </summary>
@@ -92,7 +92,7 @@
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:Library.API.V2.Controllers.ClientesController.Patch(System.Int32,Library.API.V2.Dtos.ClienteDto)">
+        <member name="M:Library.API.V2.Controllers.ClientesController.Patch(System.Int32,Library.API.V2.Dtos.ClienteDto.ClienteDto)">
             <summary>
             Método para atualizar um Cliente através do Id
             </summary>
@@ -112,12 +112,13 @@
             
             </summary>
         </member>
-        <member name="M:Library.API.V2.Controllers.EditorasController.#ctor(Library.API.Services.Interfaces.IEditoraService,Library.API.Data.IRepository)">
+        <member name="M:Library.API.V2.Controllers.EditorasController.#ctor(Library.API.Services.Interfaces.IEditoraService,Library.API.Data.IRepository,AutoMapper.IMapper)">
             <summary>
             
             </summary>
             <param name="service"></param>
             <param name="repo"></param>
+            <param name="mapper"></param>
         </member>
         <member name="M:Library.API.V2.Controllers.EditorasController.Get(Library.API.Helpers.PageParams)">
             <summary>
@@ -132,27 +133,27 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Library.API.V2.Controllers.EditorasController.Post(Library.API.Models.Editoras)">
+        <member name="M:Library.API.V2.Controllers.EditorasController.Post(Library.API.V2.Dtos.EditoraDto.EditoraCreateDto)">
             <summary>
             
             </summary>
-            <param name="editora"></param>
+            <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:Library.API.V2.Controllers.EditorasController.Put(System.Int32,Library.API.Models.Editoras)">
+        <member name="M:Library.API.V2.Controllers.EditorasController.Put(System.Int32,Library.API.V2.Dtos.EditoraDtos.EditoraDto)">
             <summary>
             Método para atualizar uma Editora através do Id
             </summary>
             <param name="id"></param>
-            <param name="editoras"></param>
+            <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:Library.API.V2.Controllers.EditorasController.Patch(System.Int32,Library.API.Models.Editoras)">
+        <member name="M:Library.API.V2.Controllers.EditorasController.Patch(System.Int32,Library.API.V2.Dtos.EditoraDtos.EditoraDto)">
             <summary>
             Método para atualizar uma Editora através do Id
             </summary>
             <param name="id"></param>
-            <param name="editoras"></param>
+            <param name="model"></param>
             <returns></returns>
         </member>
         <member name="M:Library.API.V2.Controllers.EditorasController.Delete(System.Int32)">
@@ -167,12 +168,13 @@
             
             </summary>
         </member>
-        <member name="M:Library.API.V2.Controllers.LivrosController.#ctor(Library.API.Services.Interfaces.ILivroService,Library.API.Data.IRepository)">
+        <member name="M:Library.API.V2.Controllers.LivrosController.#ctor(Library.API.Services.Interfaces.ILivroService,Library.API.Data.IRepository,AutoMapper.IMapper)">
             <summary>
             
             </summary>
             <param name="service"></param>
             <param name="repo"></param>
+            <param name="mapper"></param>
         </member>
         <member name="M:Library.API.V2.Controllers.LivrosController.Get(Library.API.Helpers.PageParams)">
             <summary>
@@ -187,27 +189,27 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Library.API.V2.Controllers.LivrosController.Post(Library.API.Models.Livros)">
+        <member name="M:Library.API.V2.Controllers.LivrosController.Post(Library.API.V2.Dtos.LivroCreateDto.LivroCreateDto)">
             <summary>
             Método para adicionar um Livro
             </summary>
-            <param name="livro"></param>
+            <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:Library.API.V2.Controllers.LivrosController.Put(System.Int32,Library.API.Models.Livros)">
+        <member name="M:Library.API.V2.Controllers.LivrosController.Put(System.Int32,Library.API.V2.Dtos.LivroDto.LivroDto)">
             <summary>
-            Método para atualizar um Livro através do Id
+            
             </summary>
             <param name="id"></param>
-            <param name="livros"></param>
+            <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:Library.API.V2.Controllers.LivrosController.Patch(System.Int32,Library.API.Models.Livros)">
+        <member name="M:Library.API.V2.Controllers.LivrosController.Patch(System.Int32,Library.API.V2.Dtos.LivroDto.LivroDto)">
             <summary>
-            Método para atualizar um Livro através do Id
+            
             </summary>
             <param name="id"></param>
-            <param name="livros"></param>
+            <param name="model"></param>
             <returns></returns>
         </member>
         <member name="M:Library.API.V2.Controllers.LivrosController.Delete(System.Int32)">

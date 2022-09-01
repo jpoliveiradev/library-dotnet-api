@@ -1,9 +1,12 @@
 ﻿using FluentValidation;
-using Library.API.V2.Dtos;
+using Library.API.V2.Dtos.ClienteCreateDto;
 
-namespace Library.API.Validators {
-    public class ClienteValidator : AbstractValidator<ClienteDto> {
-        public ClienteValidator() {
+namespace Library.API.Validators.ClienteValidations
+{
+    public class ClienteCreateValidator : AbstractValidator<ClienteCreateDto>
+    {
+        public ClienteCreateValidator()
+        {
             RuleFor(c => c.NomeUsuario)
                 .NotEmpty().WithMessage("Informe o nome do Cliente!")
                .MinimumLength(3).WithMessage("Mínimo 3 caracteres!")

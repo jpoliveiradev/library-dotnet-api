@@ -231,8 +231,8 @@ namespace Library.API.Data {
 
 
 
+          //  query = query.Include(al => al.Livro);
             query = query.Include(al => al.Cliente);
-            query = query.Include(al => al.Livro);
 
 
             query = query.AsNoTracking()

@@ -3,7 +3,11 @@ using FluentValidation.AspNetCore;
 using Library.API.Data;
 using Library.API.Services;
 using Library.API.Services.Interfaces;
-using Library.API.Validators;
+using Library.API.Validators.AluguelValidations;
+using Library.API.Validators.ClienteValidations;
+using Library.API.Validators.EditoraCreateValidator;
+using Library.API.Validators.EditoraValidations;
+using Library.API.Validators.LivroValidations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +20,8 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace Library.API {
+namespace Library.API
+{
     public class Startup {
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
@@ -24,7 +29,7 @@ namespace Library.API {
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services) {
 
             services.AddDbContext<DataContext>(
@@ -36,9 +41,13 @@ namespace Library.API {
 
             services.AddControllers()
                 .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<ClienteValidator>())
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<ClienteCreateValidator>())
                 .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<EditoraValidator>())
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<EditoraCreateValidator>())
                 .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<LivroValidator>())
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<LivroCreateValidator>())
                 .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<AluguelValidator>())
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<AluguelUpdateValidator>())
                 .AddNewtonsoftJson(
                     opt => opt.SerializerSettings.ReferenceLoopHandling =
                             Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -109,7 +118,6 @@ namespace Library.API {
 
                 });
 
-            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();

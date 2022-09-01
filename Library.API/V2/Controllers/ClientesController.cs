@@ -3,12 +3,14 @@ using Library.API.Data;
 using Library.API.Helpers;
 using Library.API.Models;
 using Library.API.Services.Interfaces;
-using Library.API.V2.Dtos;
+using Library.API.V2.Dtos.ClienteCreateDto;
+using Library.API.V2.Dtos.ClienteDto;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Library.API.V2.Controllers {
+namespace Library.API.V2.Controllers
+{
 
     /// <summary>
     /// 
@@ -77,7 +79,7 @@ namespace Library.API.V2.Controllers {
         /// <returns></returns>
 
         [HttpPost]
-        public IActionResult Post(ClienteDto model) {
+        public IActionResult Post(ClienteCreateDto model) {
 
             var cliente = _mapper.Map<Clientes>(model);
 
@@ -105,7 +107,7 @@ namespace Library.API.V2.Controllers {
 
             _repo.Update(cliente);
             if (_repo.SaveChanges()) {
-                return Created($"/api/clientes/{model.Id}", _mapper.Map<ClienteDto>(cliente));
+                return Created($"/api/clientes/{cliente.Id}", _mapper.Map<ClienteDto>(cliente));
 
             }
             return BadRequest("O Cliente não foi Atualizado!");
@@ -128,7 +130,7 @@ namespace Library.API.V2.Controllers {
 
             _repo.Update(cliente);
             if (_repo.SaveChanges()) {
-                return Created($"/api/clientes/{model.Id}", _mapper.Map<ClienteDto>(cliente));
+                return Created($"/api/clientes/{cliente.Id}", _mapper.Map<ClienteDto>(cliente));
 
             }
             return BadRequest("O Cliente não foi Atualizado!");

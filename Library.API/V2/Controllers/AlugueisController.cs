@@ -4,11 +4,13 @@ using Library.API.Helpers;
 using Library.API.Models;
 using Library.API.Services;
 using Library.API.Services.Interfaces;
-using Library.API.V2.Dtos;
+using Library.API.V2.Dtos.AluguelDto;
+using Library.API.V2.Dtos.AluguelUpdateDto;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Library.API.V2.Controllers {
+namespace Library.API.V2.Controllers
+{
 
     /// <summary>
     /// 
@@ -36,7 +38,6 @@ namespace Library.API.V2.Controllers {
             _service = service;
             _repo = repo;
             _mapper = mapper;
-            // _mapper = mapper;
         }
 
         /// <summary>
@@ -96,7 +97,7 @@ namespace Library.API.V2.Controllers {
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public IActionResult Put(AluguelDtoUpdate model) {
+        public IActionResult Put(AluguelUpdateDto model) {
 
             var aluguel = _mapper.Map<Alugueis>(model);
 

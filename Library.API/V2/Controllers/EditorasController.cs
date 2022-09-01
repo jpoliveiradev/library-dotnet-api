@@ -1,8 +1,13 @@
-﻿using Library.API.Data;
+﻿using AutoMapper;
+using Library.API.Data;
 using Library.API.Helpers;
 using Library.API.Models;
 using Library.API.Services.Interfaces;
+using Library.API.V2.Dtos.ClienteDto;
+using Library.API.V2.Dtos.EditoraDto;
+using Library.API.V2.Dtos.EditoraDtos;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Library.API.V2.Controllers {
@@ -17,15 +22,18 @@ namespace Library.API.V2.Controllers {
     public class EditorasController : ControllerBase {
         private readonly IEditoraService _service;
         private readonly IRepository _repo;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="service"></param>
         /// <param name="repo"></param>
-        public EditorasController(IEditoraService service, IRepository repo) {
+        /// <param name="mapper"></param>
+        public EditorasController(IEditoraService service, IRepository repo, IMapper mapper) {
             _service = service;
             _repo = repo;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -34,8 +42,14 @@ namespace Library.API.V2.Controllers {
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] PageParams pageParams) {
-            var result = await _repo.GetAllEditorasAsync(pageParams);
-            return Ok(result);
+
+            var editora = await _repo.GetAllEditorasAsync(pageParams);
+
+            var editoraResult = _mapper.Map<IEnumerable<EditoraDto>>(editora);
+            Response.AddPagination(editora.CurrentPage, editora.PageSize, editora.TotalCount, editora.TotalPages);
+
+         
+            return Ok(editoraResult);
         }
 
         /// <summary>
@@ -53,14 +67,15 @@ namespace Library.API.V2.Controllers {
             return Ok(ed);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="editora"></param>
-        /// <returns></returns>
-
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="model"></param>
+       /// <returns></returns>
         [HttpPost]
-        public IActionResult Post(Editoras editora) {
+        public IActionResult Post(EditoraCreateDto model) {
+
+            var editora = _mapper.Map<Editoras>(model);
 
             var result = _service.EditoraCreate(editora);
             if (result == null) return BadRequest("Editora já cadastrada");
@@ -73,15 +88,17 @@ namespace Library.API.V2.Controllers {
         /// Método para atualizar uma Editora através do Id
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="editoras"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Editoras editoras) {
+        public IActionResult Put(int id, EditoraDto model) {
+
+            var editora = _mapper.Map<Editoras>(model);
 
             var ed = _repo.GetEditoraById(id);
             if (ed == null) return BadRequest("A Editora não foi encontrado!");
 
-            return Ok(editoras);
+            return Ok(editora);
         }
 
 
@@ -89,15 +106,16 @@ namespace Library.API.V2.Controllers {
         /// Método para atualizar uma Editora através do Id
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="editoras"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public IActionResult Patch(int id, Editoras editoras) {
+        public IActionResult Patch(int id, EditoraDto model) {
+            var editora = _mapper.Map<Editoras>(model);
 
             var ed = _repo.GetEditoraById(id);
             if (ed == null) return BadRequest("A Editora não foi encontrado!");
 
-            return Ok(editoras);
+            return Ok(editora);
         }
 
         /// <summary>

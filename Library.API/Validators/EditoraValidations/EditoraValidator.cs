@@ -1,9 +1,12 @@
 ﻿using FluentValidation;
-using Library.API.Models;
+using Library.API.V2.Dtos.EditoraDtos;
 
-namespace Library.API.Validators {
-    public class EditoraValidator : AbstractValidator<Editoras> {
-        public EditoraValidator() {
+namespace Library.API.Validators.EditoraValidations
+{
+    public class EditoraValidator : AbstractValidator<EditoraDto>
+    {
+        public EditoraValidator()
+        {
             RuleFor(e => e.NomeEditora)
                    .NotEmpty().WithMessage("Informe o nome da Editora!")
                    .MinimumLength(3).WithMessage("Mínimo 3 caracteres!")
