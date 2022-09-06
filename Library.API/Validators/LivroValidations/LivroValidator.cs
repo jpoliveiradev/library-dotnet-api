@@ -22,7 +22,8 @@ namespace Library.API.Validators.LivroValidations
             RuleFor(l => l.Lancamento)
                 .NotEmpty().WithMessage("Informe a data do lancamento do Livro!");
             RuleFor(l => l.Quantidade)
-                .NotNull().WithMessage("Informe a quantidade do Livro!");
+                .NotNull().WithMessage("Informe a quantidade do Livro!")
+                .GreaterThanOrEqualTo(1).WithMessage("Quantidade do Livro minimo deve ser 1!");
         }
     }
 }
