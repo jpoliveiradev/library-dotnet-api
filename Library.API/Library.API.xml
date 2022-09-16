@@ -52,9 +52,10 @@
             <returns></returns>
         </member>
         <member name="T:Library.API.V2.Controllers.ClientesController">
-            <summary>
-            
-            </summary>
+             <summary>
+             
+             </summary>
+            [EnableCors("mypolicy")]
         </member>
         <member name="M:Library.API.V2.Controllers.ClientesController.#ctor(Library.API.Services.Interfaces.IClienteService,Library.API.Data.IRepository,AutoMapper.IMapper)">
             <summary>

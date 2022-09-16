@@ -10,6 +10,7 @@ namespace Library.API.Services {
         public AluguelService(IRepository repository) {
             _repo = repository;
         }
+        
         public Alugueis AluguelCreate(Alugueis model) {
 
             if (model.DataPrevisao < model.DataAluguel) {

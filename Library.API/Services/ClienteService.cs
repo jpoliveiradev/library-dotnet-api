@@ -25,5 +25,19 @@ namespace Library.API.Services {
             }
 
         }
+
+        public Clientes ClienteUpdate(Clientes model) {
+            var email = _clienteRepo.GetClienteByEmail(model.Email);
+
+            if (email != null) {
+                return null;
+            }
+            else {
+
+                _clienteRepo.Update<Clientes>(model);
+                _clienteRepo.SaveChanges();
+                return model;
+            }
+        }
     }
 }

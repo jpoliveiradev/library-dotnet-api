@@ -6,6 +6,7 @@ using Library.API.Services;
 using Library.API.Services.Interfaces;
 using Library.API.V2.Dtos.AluguelDto;
 using Library.API.V2.Dtos.AluguelUpdateDto;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

@@ -54,13 +54,19 @@ namespace Library.API.Data {
             query = query.AsNoTracking().OrderBy(c => c.Id);
             return query.ToArray();
         }
+        public Clientes[] GetAllClientesCount() {
+            IQueryable<Clientes> query = _context.Clientes;
+             query = query.Where(c => c.Id == c.Id);
+            query.Count();
+            return query.ToArray();
+        }
 
         public Clientes GetClienteById(int clienteId) {
             IQueryable<Clientes> query = _context.Clientes;
 
             query = query.AsNoTracking()
-                .OrderBy(c => c.Id)
-                .Where(cliente => cliente.Id == clienteId);
+                            .OrderBy(c => c.Id)
+                            .Where(cliente => cliente.Id == clienteId);
             return query.FirstOrDefault();
         }
         public Clientes GetClienteByEmail(string email) {
@@ -121,13 +127,13 @@ namespace Library.API.Data {
         }
 
         // Livros
-        public async Task<PageList<Livros>> GetAllLivrosAsync(PageParams pageParams, bool includeEditora = false) {
+        public async Task<PageList<Livros>> GetAllLivrosAsync(PageParams pageParams) {
             IQueryable<Livros> query = _context.Livros;
 
 
-            if (includeEditora) {
-                query = query.Include(l => l.Editora);
-            }
+
+            query = query.Include(l => l.Editora);
+
 
             query = query.AsNoTracking().OrderBy(l => l.Id);
 
@@ -231,7 +237,7 @@ namespace Library.API.Data {
 
 
 
-          //  query = query.Include(al => al.Livro);
+            //  query = query.Include(al => al.Livro);
             query = query.Include(al => al.Cliente);
 
 

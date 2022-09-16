@@ -1,12 +1,18 @@
-﻿using Library.API.Models;
+﻿
+
+using Library.API.Data;
 
 namespace Library.API.Helpers {
     public class PageParams {
 
+
         public const int MaxPageSize = 50;
+
         public int PageNumber { get; set; } = 1;
 
-        public int pageSize = 10;
+
+
+        public int pageSize = 100000000;
 
         public int PageSize {
             get { return pageSize; }

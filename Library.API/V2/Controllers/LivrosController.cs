@@ -8,9 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Library.API.V2.Dtos.ClienteDto;
-using Library.API.Services;
 using Library.API.V2.Dtos.LivroCreateDto;
+using Microsoft.AspNetCore.Cors;
 
 namespace Library.API.V2.Controllers {
 

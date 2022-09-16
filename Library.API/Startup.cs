@@ -20,16 +20,14 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace Library.API
-{
+namespace Library.API {
     public class Startup {
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
-
-
+        //    readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public void ConfigureServices(IServiceCollection services) {
 
             services.AddDbContext<DataContext>(
@@ -52,6 +50,22 @@ namespace Library.API
                     opt => opt.SerializerSettings.ReferenceLoopHandling =
                             Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+            //services.AddCors(options => 
+            //{
+            //    options.AddDefaultPolicy(
+            //        buider => buider.AllowAnyOrigin());
+            //        //buider => buider.WithOrigins("localhost:8080/"));
+
+            //    //options.AddPolicy("mypolicy", buider => buider.WithOrigins("localhost:8080/"));
+
+            //});
+
+            services.AddCors(options => {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.WithOrigins("http://localhost:8080/",
+                "http://192.168.15.8:8080/"));
+            });
+
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -61,19 +75,16 @@ namespace Library.API
             services.AddScoped<ILivroService, LivroService>();
             services.AddScoped<IAluguelService, AluguelService>();
 
-
-
-
             services.AddVersionedApiExplorer(options => {
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
 
             })
-            .AddApiVersioning(options => {
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-                options.ReportApiVersions = true;
-            });
+                .AddApiVersioning(options => {
+                    options.AssumeDefaultVersionWhenUnspecified = true;
+                    options.DefaultApiVersion = new ApiVersion(1, 0);
+                    options.ReportApiVersions = true;
+                });
 
             var apiProviderDescription = services.BuildServiceProvider()
                                                  .GetService<IApiVersionDescriptionProvider>();
@@ -105,6 +116,12 @@ namespace Library.API
 
             app.UseRouting();
 
+            app.UseCors(
+                x => x.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader()
+
+            );
             app.UseSwagger()
                 .UseSwaggerUI(options => {
                     foreach (var description in apiProviderDescription.ApiVersionDescriptions) {

@@ -3,7 +3,6 @@ using Library.API.Data;
 using Library.API.Helpers;
 using Library.API.Models;
 using Library.API.Services.Interfaces;
-using Library.API.V2.Dtos.ClienteDto;
 using Library.API.V2.Dtos.EditoraDto;
 using Library.API.V2.Dtos.EditoraDtos;
 using Microsoft.AspNetCore.Mvc;
