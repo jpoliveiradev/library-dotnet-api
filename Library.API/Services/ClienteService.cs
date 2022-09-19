@@ -6,38 +6,49 @@ namespace Library.API.Services {
 
     public class ClienteService : IClienteService {
 
-        private readonly IRepository _clienteRepo;
+        private readonly IRepository _repo;
         public ClienteService(IRepository repository) {
-            _clienteRepo = repository;
+            _repo = repository;
         }
 
         public Clientes ClienteCreate(Clientes model) {
-            var email = _clienteRepo.GetClienteByEmail(model.Email);
+            var email = _repo.GetClienteByEmail(model.Email);
 
             if (email != null) {
                 return null;
             }
             else {
-
-                _clienteRepo.Add<Clientes>(model);
-                _clienteRepo.SaveChanges();
+                _repo.Add<Clientes>(model);
+                _repo.SaveChanges();
                 return model;
             }
 
         }
 
         public Clientes ClienteUpdate(Clientes model) {
-            var email = _clienteRepo.GetClienteByEmail(model.Email);
+            var clientePorId = _repo.GetClienteById(model.Id);
+            if (clientePorId == null) return null;
 
-            if (email != null) {
-                return null;
+            var clientePorEmail = _repo.GetClienteByEmail(model.Email);
+            if (clientePorEmail == null) {
+                clientePorId.NomeUsuario = model.NomeUsuario;
+                clientePorId.Endereco = model.Endereco;
+                clientePorId.Cidade = model.Cidade;
+                clientePorId.Email = model.Email;
             }
             else {
-
-                _clienteRepo.Update<Clientes>(model);
-                _clienteRepo.SaveChanges();
-                return model;
+                if (clientePorId.Id == clientePorEmail.Id) {
+                    clientePorId.NomeUsuario = model.NomeUsuario;
+                    clientePorId.Endereco = model.Endereco;
+                    clientePorId.Cidade = model.Cidade;
+                }
+                else {
+                    return null;
+                }
             }
+            _repo.Update<Clientes>(clientePorId);
+            _repo.SaveChanges();
+            return model;
         }
     }
 }

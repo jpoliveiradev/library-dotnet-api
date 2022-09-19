@@ -56,7 +56,7 @@ namespace Library.API.Data {
         }
         public Clientes[] GetAllClientesCount() {
             IQueryable<Clientes> query = _context.Clientes;
-             query = query.Where(c => c.Id == c.Id);
+            query = query.Where(c => c.Id == c.Id);
             query.Count();
             return query.ToArray();
         }
@@ -64,9 +64,9 @@ namespace Library.API.Data {
         public Clientes GetClienteById(int clienteId) {
             IQueryable<Clientes> query = _context.Clientes;
 
-            query = query.AsNoTracking()
-                            .OrderBy(c => c.Id)
-                            .Where(cliente => cliente.Id == clienteId);
+            query = query
+                .OrderBy(c => c.Id)
+                .Where(cliente => cliente.Id == clienteId);
             return query.FirstOrDefault();
         }
         public Clientes GetClienteByEmail(string email) {
@@ -106,7 +106,7 @@ namespace Library.API.Data {
         public Editoras GetEditoraById(int editoraId) {
             IQueryable<Editoras> query = _context.Editoras;
 
-            query = query.AsNoTracking()
+            query = query
                 .OrderBy(ed => ed.Id)
                 .Where(editora => editora.Id == editoraId);
 
@@ -169,8 +169,7 @@ namespace Library.API.Data {
                 query = query.Include(l => l.Editora);
             }
 
-            query = query.AsNoTracking()
-                .OrderBy(l => l.Id)
+            query = query.OrderBy(l => l.Id)
                 .Where(livro => livro.Id == livroId);
 
             return query.FirstOrDefault();

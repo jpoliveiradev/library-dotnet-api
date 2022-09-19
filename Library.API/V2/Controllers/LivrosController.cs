@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Library.API.V2.Dtos.LivroCreateDto;
-using Microsoft.AspNetCore.Cors;
 
 namespace Library.API.V2.Controllers {
 
@@ -84,7 +83,7 @@ namespace Library.API.V2.Controllers {
             DateTime dataAtual = DateTime.Now;
 
             if (livro.Lancamento > dataAtual) {
-                return BadRequest("Erro: Data de lançamento depois do dia atual, não pode ser cadastrado");
+                return BadRequest("Data de lançamento depois do dia atual, não pode ser cadastrado");
             }
             else if (result == null) return BadRequest("Livro já cadastrado!");
 

@@ -50,16 +50,7 @@ namespace Library.API {
                     opt => opt.SerializerSettings.ReferenceLoopHandling =
                             Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            //services.AddCors(options => 
-            //{
-            //    options.AddDefaultPolicy(
-            //        buider => buider.AllowAnyOrigin());
-            //        //buider => buider.WithOrigins("localhost:8080/"));
-
-            //    //options.AddPolicy("mypolicy", buider => buider.WithOrigins("localhost:8080/"));
-
-            //});
-
+            
             services.AddCors(options => {
                 options.AddPolicy("AllowSpecificOrigin",
                     builder => builder.WithOrigins("http://localhost:8080/",

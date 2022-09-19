@@ -5,6 +5,7 @@ using Library.API.Models;
 using Library.API.Services.Interfaces;
 using Library.API.V2.Dtos.EditoraDto;
 using Library.API.V2.Dtos.EditoraDtos;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -47,7 +48,7 @@ namespace Library.API.V2.Controllers {
             var editoraResult = _mapper.Map<IEnumerable<EditoraDto>>(editora);
             Response.AddPagination(editora.CurrentPage, editora.PageSize, editora.TotalCount, editora.TotalPages);
 
-         
+
             return Ok(editoraResult);
         }
 
@@ -66,11 +67,11 @@ namespace Library.API.V2.Controllers {
             return Ok(ed);
         }
 
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="model"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Post(EditoraCreateDto model) {
 
@@ -96,8 +97,10 @@ namespace Library.API.V2.Controllers {
 
             var ed = _repo.GetEditoraById(id);
             if (ed == null) return BadRequest("A Editora não foi encontrado!");
-
-            return Ok(editora);
+         
+            var result = _service.EditoraUpdate(editora);
+            if (result == null) return BadRequest("Editora já cadastrada");
+            return Ok(result);
         }
 
 
@@ -109,12 +112,15 @@ namespace Library.API.V2.Controllers {
         /// <returns></returns>
         [HttpPatch("{id}")]
         public IActionResult Patch(int id, EditoraDto model) {
+
             var editora = _mapper.Map<Editoras>(model);
 
             var ed = _repo.GetEditoraById(id);
             if (ed == null) return BadRequest("A Editora não foi encontrado!");
 
-            return Ok(editora);
+            var result = _service.EditoraUpdate(editora);
+            if (result == null) return BadRequest("Editora já cadastrada");
+            return Ok(result);
         }
 
         /// <summary>
@@ -128,7 +134,7 @@ namespace Library.API.V2.Controllers {
 
             var livroCadastrado = _repo.GetEditoraByLivro(id);
             if (livroCadastrado != null) {
-                return BadRequest("Erro: Editora com livros cadastrados, não poder ser apagada!");
+                return BadRequest("Editora com livros cadastrados, não poder ser apagada!");
             }
 
             var editora = _repo.GetEditoraById(id);
