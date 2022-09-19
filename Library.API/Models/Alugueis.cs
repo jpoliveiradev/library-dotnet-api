@@ -30,7 +30,7 @@ namespace Library.API.Models {
 
         public DateTime DataPrevisao { get; set; }
 
-        public DateTime DataDevolucao { get; set; }
+        public DateTime? DataDevolucao { get; set; }
 
     }
 }

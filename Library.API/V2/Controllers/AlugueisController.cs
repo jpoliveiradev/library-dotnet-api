@@ -80,8 +80,14 @@ namespace Library.API.V2.Controllers
 
             var livro = _repo.GetLivroById(model.LivroId);
             
-            if (livro.Quantidade == 0) {
-                return BadRequest("Erro: Livro indisponivel para aluguel, aguarde chegar mais quantidades!");
+            if (livro.Quantidade <= 0) {
+                return BadRequest("Livro indisponivel para aluguel, aguarde chegar mais quantidades!");
+            }
+            if (model.DataAluguel < livro.Lancamento) {
+                return BadRequest("Data do Aluguel Anterior da Data de Lançamento do Livro!");
+            }
+            if (model.DataPrevisao < livro.Lancamento) {
+                return BadRequest("Data da Previsão Anterior da Data de Lançamento do Livro!");
             }
 
             var result = _service.AluguelCreate(aluguel);
