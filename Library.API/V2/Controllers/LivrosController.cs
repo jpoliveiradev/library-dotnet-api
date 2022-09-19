@@ -99,17 +99,19 @@ namespace Library.API.V2.Controllers {
        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Put(int id, LivroDto model) {
+            var livro = _mapper.Map<Livros>(model);
 
-            var livro = _repo.GetLivroById(id);
-            _mapper.Map(model, livro);
-            if (livro == null) return BadRequest("O Livro não foi encontrado!");
+            var result = _service.LivroUpdate(livro);
 
-            _repo.Update(livro);
-            if (_repo.SaveChanges()) {
-                return Ok(livro);
+            DateTime dataAtual = DateTime.Now;
 
+            if (livro.Lancamento > dataAtual) {
+                return BadRequest("Data de lançamento depois do dia atual, não pode ser cadastrado");
             }
-            return BadRequest("O Livro não foi Atualizado!");
+            else if (result == null) return BadRequest("Livro já cadastrado!");
+
+
+            return Ok(result);
         }
 
        /// <summary>
@@ -122,17 +124,19 @@ namespace Library.API.V2.Controllers {
         public IActionResult Patch(int id, LivroDto model) {
 
 
-            var livro = _repo.GetLivroById(id);
-            _mapper.Map(model, livro);
+            var livro = _mapper.Map<Livros>(model);
 
-            if (livro == null) return BadRequest("O Livro não foi encontrado!");
+            var result = _service.LivroUpdate(livro);
 
-            _repo.Update(livro);
-            if (_repo.SaveChanges()) {
-                return Ok(livro);
+            DateTime dataAtual = DateTime.Now;
 
+            if (livro.Lancamento > dataAtual) {
+                return BadRequest("Data de lançamento depois do dia atual, não pode ser cadastrado");
             }
-            return BadRequest("O Livro não foi Atualizado!");
+            else if (result == null) return BadRequest("Livro já cadastrado!");
+
+
+            return Ok(result);
         }
 
         /// <summary>
