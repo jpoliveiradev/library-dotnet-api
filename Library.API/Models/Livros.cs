@@ -31,6 +31,8 @@ namespace Library.API.Models {
 
         public int Quantidade { get; set; }
 
+        public int QuantAlugado { get; set; }
+
 
 
 

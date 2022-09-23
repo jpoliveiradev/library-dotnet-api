@@ -16,5 +16,6 @@ namespace Library.API.V2.Dtos.LivroDto {
         public DateTime Lancamento { get; set; }
 
         public int Quantidade { get; set; }
+        public int QuantAlugado { get; set; }
     }
 }

@@ -157,7 +157,7 @@ namespace Library.API.Data {
                 query = query.Include(l => l.Editora);
             }
 
-            query = query.AsNoTracking().OrderBy(l => l.Id);
+            query = query.AsNoTracking().OrderByDescending(l => l.QuantAlugado);
 
             return query.ToArray();
         }

@@ -20,6 +20,7 @@ namespace Library.API.Services {
 
                 var livro = _repo.GetLivroById(model.LivroId);
                 livro.Quantidade -= 1;
+                livro.QuantAlugado += 1;
 
                 _repo.Add<Alugueis>(model);
                 _repo.Update<Livros>(livro);
@@ -39,6 +40,7 @@ namespace Library.API.Services {
 
                 var livro = _repo.GetLivroById(model.LivroId);
                 livro.Quantidade += 1;
+                livro.QuantAlugado -= 1;
 
                 _repo.Update<Alugueis>(model);
                 _repo.Update<Livros>(livro);
