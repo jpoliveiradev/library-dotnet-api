@@ -4,10 +4,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Library.API.Migrations
 {
-    public partial class initial : Migration
+    public partial class initMysql : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Admins",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    NomeAdmin = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Endereco = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admins", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Clientes",
                 columns: table => new
@@ -91,6 +108,69 @@ namespace Library.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Admins",
+                columns: new[] { "Id", "Email", "Endereco", "NomeAdmin", "Password", "UserName" },
+                values: new object[,]
+                {
+                    { 1, "jp123@gmail.com", "Rua A Cascavel", "JP Souza", "jp1234", "jpsouza" },
+                    { 2, "art123@gmail.com", "Rua A Cascavel", "Arthur", "jp1234", "jpsouza" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Clientes",
+                columns: new[] { "Id", "Cidade", "Email", "Endereco", "NomeUsuario" },
+                values: new object[,]
+                {
+                    { 1, "Cascavel", "Artur@gmail.com", "Rua A", "Artur" },
+                    { 2, "Caucaia", "Ana@gmail.com", "Rua T", "Ana" },
+                    { 3, "São Paulo", "Vilma@gmail.com", "Rua K", "Vilma" },
+                    { 4, "Fortaleza", "Vitor@gmail.com", "Rua E", "Vitor" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Editoras",
+                columns: new[] { "Id", "Cidade", "NomeEditora" },
+                values: new object[,]
+                {
+                    { 1, "Cascavel", "Artur" },
+                    { 2, "Caucaia", "Ana" },
+                    { 3, "São Paulo", "Vilma" },
+                    { 4, "Fortaleza", "Vitor" },
+                    { 5, "Fortaleza", "Caio" },
+                    { 6, "Fortaleza", "Henrique" },
+                    { 7, "Fortaleza", "Laurence" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Livros",
+                columns: new[] { "Id", "Autor", "EditoraId", "Lancamento", "NomeLivro", "QuantAlugado", "Quantidade" },
+                values: new object[,]
+                {
+                    { 3, "Elephant", 1, new DateTime(2018, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Php", 0, 7 },
+                    { 1, "Navathe", 2, new DateTime(2010, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "Banco de Dados", 0, 10 },
+                    { 2, "Deitel", 3, new DateTime(2015, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "Java Prático", 0, 10 },
+                    { 4, "Cormen", 4, new DateTime(2016, 12, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "Vue JS", 0, 55 },
+                    { 5, "Git", 5, new DateTime(2020, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "GitHub", 0, 5 },
+                    { 6, "Café", 6, new DateTime(2021, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "JavaScript", 0, 22 },
+                    { 7, "Algoritmo", 7, new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), "Código Limpo", 0, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Alugueis",
+                columns: new[] { "Id", "ClienteId", "DataAluguel", "DataDevolucao", "DataPrevisao", "LivroId" },
+                values: new object[] { 3, 1, new DateTime(2018, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2018, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2018, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 3 });
+
+            migrationBuilder.InsertData(
+                table: "Alugueis",
+                columns: new[] { "Id", "ClienteId", "DataAluguel", "DataDevolucao", "DataPrevisao", "LivroId" },
+                values: new object[] { 1, 2, new DateTime(2010, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2010, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 });
+
+            migrationBuilder.InsertData(
+                table: "Alugueis",
+                columns: new[] { "Id", "ClienteId", "DataAluguel", "DataDevolucao", "DataPrevisao", "LivroId" },
+                values: new object[] { 2, 3, new DateTime(2015, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2015, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2015, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Alugueis_ClienteId",
                 table: "Alugueis",
@@ -109,6 +189,9 @@ namespace Library.API.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Admins");
+
             migrationBuilder.DropTable(
                 name: "Alugueis");
 

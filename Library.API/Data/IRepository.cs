@@ -38,6 +38,12 @@ namespace Library.API.Data {
         Alugueis[] GetAllAlugueis();
         Alugueis GetAluguelById(int aluguelId);
 
+        //Admins
+        Task<PageList<Admins>> GetAllAdminsAsync(PageParams pageParams);
+        Admins[] GetAllAdmins();
+        Admins GetAdminById(int adminId);
+        Admins GetAdminByEmail(string email);
+        Admins GetAdminByUsername(string username);
 
     }
 }

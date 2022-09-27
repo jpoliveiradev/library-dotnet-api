@@ -107,7 +107,11 @@ namespace Library.API.V2.Controllers {
        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Put(int id, LivroDto model) {
-            var livro = _mapper.Map<Livros>(model);
+
+            var livro = _repo.GetLivroById(id);
+            if (livro == null) return BadRequest("O Livro não foi encontrado!");
+
+            _mapper.Map(model, livro);
 
             var result = _service.LivroUpdate(livro);
 
@@ -132,7 +136,10 @@ namespace Library.API.V2.Controllers {
         public IActionResult Patch(int id, LivroDto model) {
 
 
-            var livro = _mapper.Map<Livros>(model);
+            var livro = _repo.GetLivroById(id);
+            if (livro == null) return BadRequest("O Livro não foi encontrado!");
+
+            _mapper.Map(model, livro);
 
             var result = _service.LivroUpdate(livro);
 
@@ -145,6 +152,7 @@ namespace Library.API.V2.Controllers {
 
 
             return Ok(result);
+
         }
 
         /// <summary>
@@ -157,7 +165,7 @@ namespace Library.API.V2.Controllers {
 
             var livroAluguel = _repo.GetLivroByAluguel(id);
             if (livroAluguel != null) {
-                return BadRequest("Erro: Livro alugado, não pode ser apagado!");
+                return BadRequest("Livro alugado, não pode ser apagado!");
             }
 
             var livro = _repo.GetLivroById(id);

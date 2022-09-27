@@ -15,7 +15,6 @@ namespace Library.API.V2.Controllers
     /// <summary>
     /// 
     /// </summary>
-    ///[EnableCors("mypolicy")]
     [ApiController]
     [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -128,12 +127,11 @@ namespace Library.API.V2.Controllers
 
             _mapper.Map(model, cliente);
 
-            _repo.Update(cliente);
-            if (_repo.SaveChanges()) {
-                return Created($"/api/clientes/{cliente.Id}", _mapper.Map<ClienteDto>(cliente));
 
-            }
-            return BadRequest("O Cliente não foi Atualizado!");
+            var result = _clienteService.ClienteUpdate(cliente);
+            if (result == null) return BadRequest("Email já cadastrado");
+
+            return Ok(result);
         }
 
         /// <summary>

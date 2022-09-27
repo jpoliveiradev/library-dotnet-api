@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Library.API.Data;
 using Library.API.Services;
 using Library.API.Services.Interfaces;
+using Library.API.Validators.AdminValidations;
 using Library.API.Validators.AluguelValidations;
 using Library.API.Validators.ClienteValidations;
 using Library.API.Validators.EditoraCreateValidator;
@@ -27,7 +28,6 @@ namespace Library.API {
         }
 
         public IConfiguration Configuration { get; }
-        //    readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public void ConfigureServices(IServiceCollection services) {
 
             services.AddDbContext<DataContext>(
@@ -46,6 +46,8 @@ namespace Library.API {
                 .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<LivroCreateValidator>())
                 .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<AluguelValidator>())
                 .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<AluguelUpdateValidator>())
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<AdminValidator>())
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<AdminCreateValidator>())
                 .AddNewtonsoftJson(
                     opt => opt.SerializerSettings.ReferenceLoopHandling =
                             Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -65,6 +67,7 @@ namespace Library.API {
             services.AddScoped<IEditoraService, EditoraService>();
             services.AddScoped<ILivroService, LivroService>();
             services.AddScoped<IAluguelService, AluguelService>();
+            services.AddScoped<IAdminService, AdminService>();
 
             services.AddVersionedApiExplorer(options => {
                 options.GroupNameFormat = "'v'VVV";
@@ -98,7 +101,7 @@ namespace Library.API {
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+     
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
                                 IApiVersionDescriptionProvider apiProviderDescription) {
             if (env.IsDevelopment()) {

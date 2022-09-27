@@ -4,6 +4,62 @@
         <name>Library.API</name>
     </assembly>
     <members>
+        <member name="T:Library.API.V2.Controllers.AdminsController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Library.API.V2.Controllers.AdminsController.#ctor(Library.API.Services.Interfaces.IAdminService,Library.API.Data.IRepository,AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="service"></param>
+            <param name="repo"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:Library.API.V2.Controllers.AdminsController.Get(Library.API.Helpers.PageParams)">
+            <summary>
+            Método para retornar todos os Admins
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Library.API.V2.Controllers.AdminsController.GetById(System.Int32)">
+            <summary>
+             Método para retornar um admin pelo id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Library.API.V2.Controllers.AdminsController.Post(Library.API.V2.Dtos.AdminCreateDto.AdminCreateDto)">
+            <summary>
+             Método para Adicionar um adminDto
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Library.API.V2.Controllers.AdminsController.Put(System.Int32,Library.API.V2.Dtos.AdminDto.AdminDto)">
+            <summary>
+            Método para atualizar um admin através do Id
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Library.API.V2.Controllers.AdminsController.Patch(System.Int32,Library.API.V2.Dtos.AdminDto.AdminDto)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Library.API.V2.Controllers.AdminsController.Delete(System.Int32)">
+            <summary>
+            Método para deletar um admin através do Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:Library.API.V2.Controllers.AlugueisController">
             <summary>
             
@@ -52,10 +108,9 @@
             <returns></returns>
         </member>
         <member name="T:Library.API.V2.Controllers.ClientesController">
-             <summary>
-             
-             </summary>
-            [EnableCors("mypolicy")]
+            <summary>
+            
+            </summary>
         </member>
         <member name="M:Library.API.V2.Controllers.ClientesController.#ctor(Library.API.Services.Interfaces.IClienteService,Library.API.Data.IRepository,AutoMapper.IMapper)">
             <summary>

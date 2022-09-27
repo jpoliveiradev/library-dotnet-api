@@ -12,7 +12,7 @@ namespace Library.API.Helpers {
 
 
 
-        public int pageSize = 100000000;
+        public int pageSize = 1000000000;
 
         public int PageSize {
             get { return pageSize; }
@@ -32,5 +32,11 @@ namespace Library.API.Helpers {
         public string NomeLivro { get; set; } = string.Empty;
 
         public string Autor { get; set; } = string.Empty;
+
+        //Admins
+        public string UserName { get; set; } = string.Empty;
+
+        public string Password { get; set; } = string.Empty;
+
     }
 }

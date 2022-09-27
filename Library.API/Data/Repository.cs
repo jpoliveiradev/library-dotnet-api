@@ -234,16 +234,60 @@ namespace Library.API.Data {
         public Alugueis GetAluguelById(int aluguelId) {
             IQueryable<Alugueis> query = _context.Alugueis;
 
-
-
-            //  query = query.Include(al => al.Livro);
             query = query.Include(al => al.Cliente);
-
 
             query = query.AsNoTracking()
                 .OrderBy(al => al.Id)
                 .Where(aluguel => aluguel.Id == aluguelId);
 
+            return query.FirstOrDefault();
+        }
+
+        //Admins
+        public async Task<PageList<Admins>> GetAllAdminsAsync(PageParams pageParams) {
+            IQueryable<Admins> query = _context.Admins;
+
+            query = query.AsNoTracking().OrderBy(al => al.Id);
+
+            if (!string.IsNullOrEmpty(pageParams.UserName)) {
+                query = query.Where(c => c.UserName.ToUpper()
+                                                      .Contains(pageParams.UserName.ToUpper()));
+            }
+
+            if (!string.IsNullOrEmpty(pageParams.Password)) {
+                query = query.Where(c => c.Password.ToUpper()
+                                                      .Contains(pageParams.Password.ToUpper()));
+            }
+
+            return await PageList<Admins>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
+        }
+
+        public Admins[] GetAllAdmins() {
+            IQueryable<Admins> query = _context.Admins;
+
+            query = query.AsNoTracking().OrderBy(al => al.Id);
+
+            return query.ToArray();
+        }
+
+        public Admins GetAdminById(int adminId) {
+            IQueryable<Admins> query = _context.Admins;
+
+            query = query.OrderBy(ad => ad.Id)
+                        .Where(admin => admin.Id == adminId);
+
+            return query.FirstOrDefault();
+        }
+
+        public Admins GetAdminByEmail(string email) {
+            IQueryable<Admins> query = _context.Admins;
+            query = query.Where(c => c.Email == email);
+            return query.FirstOrDefault();
+        }
+
+        public Admins GetAdminByUsername(string username) {
+            IQueryable<Admins> query = _context.Admins;
+            query = query.Where(c => c.UserName == username);
             return query.FirstOrDefault();
         }
     }

@@ -1,8 +1,6 @@
 ﻿using Library.API.Data;
 using Library.API.Models;
 using Library.API.Services.Interfaces;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace Library.API.Services {
     public class EditoraService : IEditoraService {

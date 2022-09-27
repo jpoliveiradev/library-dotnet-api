@@ -2,11 +2,9 @@
 using Library.API.Data;
 using Library.API.Helpers;
 using Library.API.Models;
-using Library.API.Services;
 using Library.API.Services.Interfaces;
 using Library.API.V2.Dtos.AluguelDto;
 using Library.API.V2.Dtos.AluguelUpdateDto;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -135,30 +133,5 @@ namespace Library.API.V2.Controllers
             }
             return BadRequest("O aluguel não foi Deletado!");
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

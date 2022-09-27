@@ -33,9 +33,5 @@ namespace Library.API.Models {
 
         public int QuantAlugado { get; set; }
 
-
-
-
-
     }
 }

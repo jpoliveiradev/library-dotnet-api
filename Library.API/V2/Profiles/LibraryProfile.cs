@@ -8,6 +8,8 @@ using Library.API.V2.Dtos.AluguelUpdateDto;
 using Library.API.V2.Dtos.ClienteCreateDto;
 using Library.API.V2.Dtos.EditoraDtos;
 using Library.API.V2.Dtos.LivroCreateDto;
+using Library.API.V2.Dtos.AdminCreateDto;
+using Library.API.V2.Dtos.AdminDto;
 
 namespace Library.API.V2.Profiles
 {
@@ -22,6 +24,8 @@ namespace Library.API.V2.Profiles
             CreateMap<Livros, LivroCreateDto>().ReverseMap();
             CreateMap<Alugueis, AluguelDto>().ReverseMap();
             CreateMap<Alugueis, AluguelUpdateDto>().ReverseMap();
+            CreateMap<Admins, AdminDto>().ReverseMap();
+            CreateMap<Admins, AdminCreateDto>().ReverseMap();
 
         }
     }
