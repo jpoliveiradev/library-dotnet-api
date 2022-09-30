@@ -13,7 +13,6 @@ namespace Library.API.Data {
         //Clientes
         Task<PageList<Clientes>> GetAllClientesAsync(PageParams pageParams);
         Clientes[] GetAllClientes();
-        Clientes[] GetAllClientesCount();
         Clientes GetClienteById(int clienteId);
         Clientes GetClienteByEmail(string email);
         Alugueis GetClienteByAluguel(int clienteId);
@@ -28,6 +27,7 @@ namespace Library.API.Data {
         //Livros
         Task<PageList<Livros>> GetAllLivrosAsync(PageParams pageParams);
         Livros[] GetAllLivros(bool includeEditora = false);
+        Livros[] GetAllLivrosDisp(bool includeEditora = false);
         Livros[] GetAllLivrosByEditoraId(int editoraId, bool includeEditora = false);
         Livros GetLivroById(int livroId, bool includeEditora = false);
         Livros GetLivroByNome(string nome);

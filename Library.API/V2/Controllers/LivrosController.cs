@@ -66,11 +66,21 @@ namespace Library.API.V2.Controllers {
             var livroDto = _mapper.Map<LivroDto>(livro);
 
             return Ok(livroDto);
-        }     
+        }  
+        
         [HttpGet("maisAlugados")]
         public IActionResult GetByAluguel() {
 
             var livro = _repo.GetAllLivros();
+            var livroDto = _mapper.Map <IEnumerable<LivroDto>>(livro);
+
+            return Ok(livroDto);
+        }
+        
+        [HttpGet("livrosDisp")]
+        public IActionResult GetAllLivrosDisp() {
+
+            var livro = _repo.GetAllLivrosDisp();
             var livroDto = _mapper.Map <IEnumerable<LivroDto>>(livro);
 
             return Ok(livroDto);

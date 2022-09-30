@@ -54,12 +54,6 @@ namespace Library.API.Data {
             query = query.AsNoTracking().OrderBy(c => c.Id);
             return query.ToArray();
         }
-        public Clientes[] GetAllClientesCount() {
-            IQueryable<Clientes> query = _context.Clientes;
-            query = query.Where(c => c.Id == c.Id);
-            query.Count();
-            return query.ToArray();
-        }
 
         public Clientes GetClienteById(int clienteId) {
             IQueryable<Clientes> query = _context.Clientes;
@@ -158,6 +152,13 @@ namespace Library.API.Data {
             }
 
             query = query.AsNoTracking().OrderByDescending(l => l.QuantAlugado);
+
+            return query.ToArray();
+        }
+        public Livros[] GetAllLivrosDisp(bool includeEditora = false) {
+            IQueryable<Livros> query = _context.Livros;
+
+            query = query.AsNoTracking().OrderBy(l => l.Id).Where(livro => livro.Quantidade > 0);
 
             return query.ToArray();
         }
